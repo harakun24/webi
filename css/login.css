@@ -1,3 +1,13 @@
+body {
+  margin: 0;
+  background: #7cdfbe;
+}
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  outline: none;
+}
+
 .back {
   position: absolute;
   width: 100vw;
@@ -12,16 +22,114 @@
 
 .form {
   width: 60%;
-  height: 80vh;
+  height: 40vh;
   max-width: 460px;
   background: white;
   margin: 0 auto;
-  margin-top: 10vh;
+  margin-top: 30vh;
   border-radius: 10px;
+  overflow: hidden;
 }
 
 .form h1 {
   text-align: center;
   line-height: 350%;
+}
+
+.dobel {
+  width: 200%;
+  height: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.dobel-child {
+  margin-top: -2%;
+  width: 50%;
+  height: 100%;
+  position: relative;
+}
+
+.dobel-child b {
+  position: absolute;
+  right: 20%;
+  margin-top: 8%;
+  color: #185bd6;
+  cursor: pointer;
+}
+
+.input-list {
+  width: 80%;
+  height: 30%;
+  margin-left: 10%;
+  margin-top: 2%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+.input-list:nth-child(2) {
+  margin-top: 5%;
+}
+
+.input-list input {
+  border: 0;
+  width: 78%;
+  height: 100%;
+  background: transparent;
+  position: relative;
+  border-radius: 4px;
+  -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.699);
+          box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.699);
+  padding-left: 5%;
+  padding-right: 1%;
+  overflow: hidden;
+}
+
+.input-list input:not(:placeholder-shown) {
+  -webkit-box-shadow: 0px 0px 2px rgba(66, 107, 241, 0.699);
+          box-shadow: 0px 0px 2px rgba(66, 107, 241, 0.699);
+  background: white !important;
+}
+
+.input-list input:not(:placeholder-shown) + label {
+  opacity: 1;
+  color: rgba(66, 107, 241, 0.699);
+  top: -15%;
+  left: 15%;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.input-list input:focus {
+  -webkit-box-shadow: 0px 0px 2px rgba(66, 107, 241, 0.699);
+          box-shadow: 0px 0px 2px rgba(66, 107, 241, 0.699);
+}
+
+.input-list label {
+  position: absolute;
+  font-weight: bold;
+  opacity: 0;
+  top: 30%;
+  left: 12%;
+  background: white;
+  font-size: 75%;
+  -webkit-transition: cubic-bezier(0.445, 0.05, 0.55, 0.95) 0.25s;
+  transition: cubic-bezier(0.445, 0.05, 0.55, 0.95) 0.25s;
 }
 /*# sourceMappingURL=login.css.map */
