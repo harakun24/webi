@@ -28,10 +28,23 @@ $con = connect();
         <h1>Selamat Datang di web Pustakaku</h1>
         <div class="row">
             <div class="box">
-                <a href="#info">Read More</a>
+            <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;Lebih dari <b> 40000</b> user telah
+            mendaftar. jangan lewatkan kesempatan ini dan mulai bergabung dengan
+            pustakaku sekarang.
+            </p>
+                <a href="#info" id="readme">Read More <div class="contente"></div></a>
             </div>
             <div class="box">
-        
+            <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            Jadilah salah satu dari pegguna
+            Pustakaku dan nikmati kemudahan dalam
+            pengelolaan perpustakaan berbasis web.
+            Klik link berikut
+            </p>
+            <a href="register.php" id="readme">Registrasi <div class="contente"></div></a>
+
         </div>
         </div>
         <div class="mdl" id="info"></div>

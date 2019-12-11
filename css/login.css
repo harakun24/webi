@@ -1,0 +1,27 @@
+.back {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  -webkit-filter: blur(4px);
+          filter: blur(4px);
+  background: url("../images/back.jpg");
+  background-size: auto 150%;
+  z-index: -1;
+  top: 0;
+}
+
+.form {
+  width: 60%;
+  height: 80vh;
+  max-width: 460px;
+  background: white;
+  margin: 0 auto;
+  margin-top: 10vh;
+  border-radius: 10px;
+}
+
+.form h1 {
+  text-align: center;
+  line-height: 350%;
+}
+/*# sourceMappingURL=login.css.map */

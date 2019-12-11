@@ -53,18 +53,37 @@ body {
   width: 40%;
   height: 50%;
   border-radius: 4px;
-  opacity: 0.6;
+  opacity: 0.8;
   -webkit-box-shadow: 1px 1px 3px rgba(218, 218, 218, 0.295);
           box-shadow: 1px 1px 3px rgba(218, 218, 218, 0.295);
-  background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.253)), to(rgba(255, 255, 255, 0.61)));
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.61));
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.418)), to(rgba(255, 255, 255, 0.61)));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.418), rgba(255, 255, 255, 0.61));
   -webkit-transition: cubic-bezier(0.165, 0.84, 0.44, 1) 0.5s;
   transition: cubic-bezier(0.165, 0.84, 0.44, 1) 0.5s;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   margin-top: 10%;
 }
 
 .box:hover {
   opacity: 1;
+}
+
+.box p {
+  width: 85%;
+  color: #252525;
+  line-height: 140%;
 }
 
 .header {
@@ -83,5 +102,34 @@ body {
   height: 30vh;
   background-color: yellowgreen !important;
   margin-top: 20%;
+}
+
+#readme {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: justify;
+  margin-top: -15px;
+  text-decoration: none;
+  color: black;
+  -webkit-transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s;
+  transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s;
+}
+
+#readme:hover {
+  color: rgba(34, 60, 134, 0.603);
+}
+
+#readme:hover > .contente {
+  width: 100%;
+}
+
+#readme .contente {
+  width: 0%;
+  height: 1px;
+  background: rgba(34, 60, 134, 0.603);
+  -webkit-transition: cubic-bezier(0.445, 0.05, 0.55, 0.95) 0.5s;
+  transition: cubic-bezier(0.445, 0.05, 0.55, 0.95) 0.5s;
 }
 /*# sourceMappingURL=main.css.map */
