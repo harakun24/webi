@@ -1,0 +1,8 @@
+<?php
+
+$token = "9e197296-9e68-4556-ae9c-f821e08a3d7e";
+$username ="dimasoppo448@gmail.com";
+$password = "DF17F363FDE38B868CDA9F10E1B178067905";
+$server = "smtp.elasticemail.com";
+$port = "2525";
+?>

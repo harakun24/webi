@@ -14,14 +14,13 @@ $con = connect();
 <html>
 
 <head>
-    <script src="js/jquery.js"></script>
-    <script src="js/dim.js"></script>
-    <link rel="stylesheet" href="css/main.css?v=22">
+    <script src="app/asset/js/dim2.js"></script>
+    <link rel="stylesheet" href="app/asset/css/main.css?v=22">
 </head>
 
 <body>
     <div class="back">
-        <img src="images/back.jpg" alt="">
+        <img src="app/asset/images/back.jpg" alt="">
     </div>
     <div class="content">
         <div class="header"><a href="#">Login</a></div>

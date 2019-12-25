@@ -1,0 +1,111 @@
+<html>
+
+<head>
+    <script src="../asset/js/dim2.js"></script>
+    <script src="../asset/js/lib.js"></script>
+
+    <link rel="stylesheet" href="../asset/css/login.css?v=23">
+</head>
+
+<body>
+    <div class="back"></div>
+    <div class="form">
+        <h1>Masuk</h1>
+        <div class="dobel">
+            <div class="dobel-child">
+                <div class="input-list">
+                    <input type="text" id="username" placeholder="username">
+                    <label for="username" id="usr">username</label>
+                </div>
+                <b id="next">Next</b>
+            </div>
+
+            <div class="dobel-child">
+                <div class="input-list">
+                    <input type="password" id="password" onkeyup="pass1()" placeholder="password">
+                    <label for="password" id="pass">password</label>
+                    <div class="show" id="psw"></div>
+                </div>
+                <r id="prev">Kembali</r>
+                <b id="masuk">Masuk</b>
+            </div>
+        </div>
+    </div>
+    <script>
+        let prev = gElement("#prev");
+        let masuk = gElement("#masuk");
+        let btnNext = gElement("#next");
+        let dblChild = gElement(".dobel");
+        let input = gElement("#username");
+        let pass = gElement("#password");
+
+        let ipt = gElement("#psw");
+        let status = 1;
+
+        ipt.onclick = function() {
+            if (status) {
+                this.style.cssText = "background-image:url(../asset/images/show.png?v=2)";
+
+                this.parentNode.children[0].type = "text";
+                status = 0;
+            } else {
+                this.style.cssText = "background-image:url(../asset/images/hide.png)";
+                this.parentNode.children[0].type = "password";
+                status = 1;
+
+            }
+        }
+
+        btnNext.onclick = function() {
+            get('<?php echo $base ?>api/user?clogin=' + input.value, (res) => {
+                if (res == "bad") {
+                    validate("#usr", "#username", "username", "rgba(66, 107, 241, 0.699)");
+                    dblChild.style.cssText = "margin-left:-100%";
+                } else {
+                    validate("#usr", "#username", "username tidak dikenal", "red");
+                }
+            })
+        }
+
+        function input2() {
+            get('<?php echo $base ?>api/user?clogin=' + input.value, (res) => {
+                console.log(res);
+                if (res == "ok") {
+                    validate("#usr", "#username", "username", "rgba(66, 107, 241, 0.699)");
+                } else {
+                    validate("#usr", "#username", "username tidak dikenal", "red");
+                }
+            })
+        }
+
+        function pass1() {
+            if (pass.value.length < 8) {
+                validate("#pass", "#password", "password minimal 8 karakter", "red");
+            } else {
+                validate("#pass", "#password", "password", "rgba(66, 107, 241, 0.699)");
+            }
+        }
+        prev.onclick = function() {
+            dblChild.style.cssText = "margin-left:0%";
+        }
+        masuk.onclick = function() {
+            post("<?php echo $base ?>api/user", {
+                log: {
+                    user: input.value,
+                    pass: pass.value
+                }
+            }, (e) => {
+                if (e != "ok") {
+                    console.log(e);
+                    dblChild.style.cssText = "margin-left:0%";
+                    input.value = input.value;
+                    validate("#usr", "#username", "masalah autentifikasi akun", "red");
+                } else {
+                    window.location.replace("proses-login.php?user=" + input.value);
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

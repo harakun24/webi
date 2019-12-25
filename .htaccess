@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^login login.php
+RewriteRule ^api/user app/api/user.php
+RewriteRule ^api app/api/index.php

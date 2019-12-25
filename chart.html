@@ -1,0 +1,89 @@
+<html>
+
+<head>
+    <script src="app/asset/js/chart.js"></script>
+    <script src="app/asset/js/dim2.js"></script>
+    <style>
+        .col {
+            width: 90%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="col">
+        <canvas id="myChart"></canvas>
+        <canvas id="myChart2"></canvas>
+
+    </div>
+    <script>
+        let tmp;
+        setInterval(() => {
+            get("app/model/log.php", (res) => {
+                // console.log(tmp);
+                if (JSON.stringify(tmp) != JSON.stringify(res)) {
+                    tmp = res;
+                    let content = {
+                        labels: ["0"],
+                        datasets: [{
+                            label: "7 hari terakhir",
+                            fill: false,
+                            data: [""],
+                            backgroundColor: ["#ffa7ba"],
+                            borderColor: ["#fe767a"],
+                            borderWidth: 8
+                        }]
+                    }
+
+
+                    res[1].forEach(f => {
+
+                        content.labels.push(f.date);
+                        content.datasets[0].data.push(f.total);
+                        content.datasets[0].data.push(f.total);
+                    });
+                    // res[0].forEach(f => {
+                    //     content.datasets[1].data.push(f.total);
+                    // })
+                    console.log(content);
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var ctx2 = document.getElementById('myChart2').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: content,
+                        options: {
+                            elements: {
+                                line: {
+                                    tension: 0
+                                }
+                            }
+                            // animation: {
+                            //     duration: 0
+                            // }
+                        }
+                    });
+
+                    var myChart = new Chart(ctx2, {
+                        type: 'bar',
+                        data: content,
+                        options: {
+                            elements: {
+                                line: {
+                                    tension: 0
+                                }
+                            }
+                            // animation: {
+                            //     duration: 0
+                            // }
+                        }
+                    });
+                }
+
+
+            });
+
+        }, 300);
+    </script>
+</body>
+
+</html>

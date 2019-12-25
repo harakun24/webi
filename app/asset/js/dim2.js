@@ -1,26 +1,30 @@
 var tmmp, tfile, nfile, k;
 using = function(url) {
-    $.get(url, data => {
-        // $("head").append("<style>" + data + "</style>");
-        $("head").prepend("<style>" + data + "</style>");
-    });
+    fetch(url)
+        .then(response => response.text())
+        .then(response => {
+            document.querySelector("head").append("<style>" + response + "</style>");
+            // $("head").append("<style>" + response + "</style>");
+            console.log("sukses nambah:" + url);
+        })
+        .catch(err => console.log(err));
 };
-app = $(document);
-create = function(type) {
+app = document;
+createUI = function(type) {
     let result = document.createElement(type.content);
-    $.each(type, (key, val) => {
+    for (const [key, val] of Object.entries(type)) {
         if (key == "content") {} else if (key == "css") {
             let sname = "";
-            $.each(val, (k, v) => {
+            for (const [k, v] of Object.entries(val)) {
                 sname += k + ":" + v + "";
-            });
+            }
             result.setAttribute("style", sname);
         } else if (key == "val") {
             result.append(val);
         } else {
             result.setAttribute(key, val);
         }
-    });
+    }
 
     result.render = () => {
         document.body.appendChild(result);
@@ -28,13 +32,10 @@ create = function(type) {
     result.child = child => {
         result.appendChild(child);
     };
-    result.text = val => {
-        result.innerHTML = val;
-    };
     result.attr = val => {
-        $.each(val, function(key, isi) {
+        for (const [key, isi] of Object.entries(val)) {
             result.setAttribute(key, isi);
-        });
+        }
     };
     result.toHead = () => {
         document.head.appendChild(result);
@@ -46,11 +47,18 @@ create = function(type) {
     return result;
 };
 dim = function(data, runer) {
-    app.ready(() => {
+    var ready = callback => {
+        if (document.readyState != "loading") callback();
+        else document.addEventListener("DOMContentLoaded", callback);
+    };
+
+    ready(() => {
         setTimeout(() => {
-            $.get(data, jssd => {
-                runer(jssd);
-            });
+            fetch(data)
+                .then(response => response.json())
+                .then(response => {
+                    runer(response);
+                });
         }, 0);
     });
 };
@@ -64,7 +72,7 @@ fsave = (ft, name, type) => {
     if (window.navigator.msSaveOrOpenBlob)
         window.navigator.msSaveBlob(file, name);
     else {
-        let a = create("a");
+        let a = createUI("a");
         let url = URL.createObjectURL(file);
         a.href = url;
         a.download = name;
@@ -77,76 +85,67 @@ fsave = (ft, name, type) => {
     }
 };
 
-style = create({ content: "style", id: "mediaq" });
+style = createUI({ content: "style", id: "mediaq" });
 style.toHead();
-style2 = create({ content: "style", id: "dark" });
-style2.toHead();
 
 ls = url => {
-    $.get(url, data => {
-        $("#mediaq").html(data);
-    });
+    fetch(url)
+        .then(response => response.text())
+        .then(response => {
+            document.querySelector("#mediaq").innerHTML = response;
+        })
+        .catch(err => console.log(err));
 };
 
 getText = (url, fun) => {
     let result = "";
-    $.get(
-        url,
-        result2 => {
-            result = result2;
+
+    fetch(url)
+        .then(response => response.text())
+        .then(response => {
+            result = response;
             fun(result);
-        },
-        "text"
-    );
+        })
+        .catch(err => console.log(err));
     return result;
 };
 
 rcss = function(w) {
     let x = [];
-    let dark;
-    dark = window.matchMedia("(prefers-color-scheme: dark)");
-    $.each(w.desktop, (k, v) => {
+    for (const [k, v] of Object.entries(w.desktop)) {
         x.push([window.matchMedia(v[0]), v[1]]);
-    });
+    }
 
     function myFunction() {
         num = false;
-        $.each(x, (key, val) => {
+        for (const [key, val] of Object.entries(x)) {
             if (val[0].matches) {
                 ls(val[1]);
                 num = true;
             }
-        });
+        }
         if (window.screen.orientation.type == "portrait-primary") {
             ls(w.mobile);
-        }
-        if (dark.matches) {
-            getText(w.dark, result => {
-                style2.text(result);
-            });
-        } else {
-            style2.text("");
         }
     }
 
     myFunction();
-    $.each(x, (key, val) => {
+    for (const [key, val] of Object.entries(x)) {
         val[0].addListener(myFunction);
-    });
-    dark.addListener(myFunction);
+    }
 };
 gElement = function(param) {
-    let temp = $(param);
+    let temp = document.querySelector(param);
     temp.child = function(child) {
         temp.append(child);
     };
     temp.attr = val => {
-        $.each(val, function(key, isi) {
+        for (const [key, isi] of Object.entries(val)) {
             temp.attr(key, isi);
-        });
+        }
     };
     temp.toHead = () => {
-        $("head").append(temp);
+        document.querySelector("head").append(temp);
     };
 
     temp.unset = () => {
@@ -159,12 +158,12 @@ bind = function(data, nama) {
     let res = [];
     res[0] = nama;
     if (typeof data == "object") {
-        $.each(data, (k, v) => {
+        for (const [k, v] of Object.entries(data)) {
             if (typeof v == "object") {
                 let result = {};
-                $.each(v, (k, val) => {
+                for (const [k, val] of Object.entries(v)) {
                     result[k] = val;
-                });
+                }
 
                 res.push(result);
             } else {
@@ -172,7 +171,7 @@ bind = function(data, nama) {
                 result[k] = v;
                 res.push(result);
             }
-        });
+        }
     } else res.push(data);
 
     scope.push(res);
@@ -181,7 +180,7 @@ include = function(source, data1, target) {
     let body = gElement(target);
     let deta = scope.find(s => s[0] == data1);
     deta.shift();
-    $.each(deta, (k, v) => {
+    for (const [k, v] of Object.entries(deta)) {
         $.get(
             source,
             data => {
@@ -195,17 +194,33 @@ include = function(source, data1, target) {
             },
             "text"
         );
-    });
-};
-let unload = function(v) {
-    var head = document.getElementsByTagName("head")[0];
-    var body = document.getElementsByTagName("body")[0];
-    var scripts = head.getElementsByTagName(v);
-
-    if (scripts.length > 0) {
-        head.removeChild(scripts[0]);
-        scripts = body.getElementsByTagName(v);
-
-        body.removeChild(scripts[0]);
+        fetch(source)
+            .then(response => response.text())
+            .then(response => {
+                let newdata = response;
+                console.log(v);
+                for (const [k, val] of Object.entries(v)) {
+                    let str = "$scope." + k;
+                    newdata = newdata.replace(str, val);
+                }
+                body.append(newdata);
+            });
     }
 };
+let post = function(url, data, after) {
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+    }).then(res => res.json()).then(res => {
+        after(res);
+    })
+}
+let get = function(url, after) {
+    fetch(url)
+        .then(res =>
+            res.json()
+        )
+        .then(res => {
+            after(res)
+        })
+}

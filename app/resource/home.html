@@ -1,0 +1,109 @@
+<div class="row">
+    <div class="col">
+        <h1 id="buku">4000</h1>
+        <b>Total buku</b>
+    </div>
+    <div class="col">
+        <h1>4000</h1>
+        <b>Buku dipinjam</b>
+    </div>
+    <div class="col">
+        <h1>4000</h1>
+        <b>Visitor</b>
+    </div>
+</div>
+<div class="row">
+    <div class="left">
+        <b style="margin-top: 20px;">kategori</b>
+        <ul style="position: relative;">
+            <?php
+                error_reporting(0);
+                include("../model/kategori.php");     
+                $baru = new kategori();
+                $tmp=$baru->top(7); foreach($tmp as $t){ ?>
+                <li>
+                    <?php echo "$t[nama]"?>
+                    <b style="position: absolute;right: 0;"><?php echo "$t[jumlah]"?></b>
+                </li>
+
+                <?php
+                }
+                ?>
+        </ul>
+    </div>
+    <div class="right">
+        <div class="chart">
+            <canvas id="mine"></canvas>
+        </div>
+    </div>
+</div>
+<script>
+    var ctx = document.getElementById("mine").getContext("2d");
+    var myChart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: ["1", "2", "3", "1", "2", "3"],
+            datasets: [{
+                label: "pemasukan",
+                fill: "none",
+                data: [12, 19, 3, 21, 0, 3],
+                backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(255, 206, 86, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                    "rgba(153, 102, 255, 0.2)",
+                    "rgba(255, 159, 64, 0.2)"
+                ],
+                borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(153, 102, 255, 1)",
+                    "rgba(255, 159, 64, 1)"
+                ],
+                borderWidth: 1
+            }, {
+                label: "pengeluaran",
+                data: [8, 9, 13, 12, 1, 5],
+                fill: "none",
+                backgroundColor: [
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(255, 206, 86, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                    "rgba(153, 102, 255, 0.2)",
+                    "rgba(255, 159, 64, 0.2)"
+                ],
+                borderColor: [
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+
+                    "rgba(153, 102, 255, 1)",
+                    "rgba(255, 159, 64, 1)"
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            elements: {
+                line: {
+                    tension: 0
+                }
+            }
+        }
+    });
+    let temp;
+    setInterval(() => {
+        get("../api/buku.php?count", e => {
+            if (JSON.stringify(temp) != JSON.stringify(e)) {
+                temp = e;
+                let total = gElement("#buku");
+                total.innerHTML = e;
+            }
+        });
+    }, 300);
+</script>

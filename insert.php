@@ -6,7 +6,7 @@ if(isset($_POST['data'])){
     $token = getName(25);
     $pin = getPIN();
     $pass = md5($data['password']);
-    $sql ="insert into user values('$data[username]','$data[email]','$pass','$token','$pin')";
+    $sql ="insert into user values('$data[username]','$data[email]','$pass','$token','$pin','N')";
     // print_r($data);
     $con = connect();
     try{
