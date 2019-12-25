@@ -3,37 +3,38 @@
 <head>
     <script src="../asset/js/dim2.js"></script>
     <script src="../asset/js/chart.js"></script>
-    <link rel="stylesheet" href="../asset/css/dashboard.css">
+    <link rel="stylesheet" href="../asset/css/dashboard.css" />
 </head>
 
 <body>
     <div class="wrapper">
         <button class="btn-nav">&#9776;</button>
         <div class="active-art">
-
             <?php
-                include("../resource/home.html");
+                include("../resource/$_GET[url].html");
             ?>
         </div>
     </div>
     <div class="nav">
         <button class="btn-nav2">&#9776;</button>
-        <h5><i>@<?php echo $_SESSION['user']?></i></h5>
+        <h5>
+            <i>@<?php echo $_SESSION['user']?></i>
+        </h5>
 
         <section>
-            <div class="li" onclick="baru()">
+            <div class="li" onclick="document.location.replace('dashboard.php?url=home')">
                 HOME
             </div>
-            <div class="li" onclick="baru()">
+            <div class="li" onclick="document.location.replace('dashboard.php?url=home')">
                 PROFIL
             </div>
-            <div class="li" onclick="baru()">
+            <div class="li" onclick="document.location.replace('dashboard.php?url=home')">
                 KARYAWAN
             </div>
-            <div class="li" onclick="baru()">
+            <div class="li" onclick="document.location.replace('dashboard.php?url=book')">
                 BUKU
             </div>
-            <div class="li" onclick="baru()">
+            <div class="li" onclick="document.location.replace('dashboard.php?url=home')">
                 VISITOR
             </div>
             <div class="li" onclick="logot()">
@@ -50,17 +51,17 @@
         btn.onclick = function() {
             nav.style.cssText = "left:0";
             wr.style.cssText = "margin-left:16%";
-        }
+        };
 
         wrapper.onclick = function() {
             nav.style.cssText = "left:-150px";
             wr.style.cssText = "margin-left:10%";
-        }
+        };
 
         function logot() {
             get("logot.php", () => {
                 window.location.replace("login.php");
-            })
+            });
         }
     </script>
 </body>

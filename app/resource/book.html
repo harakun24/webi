@@ -1,0 +1,53 @@
+<div class="cont">
+    <div class="head">
+        Manage
+        <div class="action">
+            <img src="../asset/images/icon/show.png" alt="show" onclick="show()" />
+            <img src="../asset/images/icon/add.png" alt="add" />
+            <img src="../asset/images/icon/edit.png" alt="edit" />
+            <img src="../asset/images/icon/delete.png" alt="delete" />
+        </div>
+    </div>
+    <div class="body">
+        <table cellspacing="0"></table>
+    </div>
+</div>
+<script>
+    let show = () => {
+        let tmp = gElement(".body table");
+        tmp.innerHTML = "";
+        let r = createUI({
+            content: "tr"
+        });
+        let hj = createUI({
+            content: "th",
+            val: "judul"
+        });
+        let hs = createUI({
+            content: "th",
+            val: "stok"
+        });
+        r.child(hj);
+        r.child(hs);
+        tmp.child(r);
+
+        get("../api/buku.php?list", e => {
+            e.forEach(list => {
+                let row = createUI({
+                    content: "tr"
+                });
+                let judul = createUI({
+                    content: "td",
+                    val: list.judul
+                });
+                let kategori = createUI({
+                    content: "td",
+                    val: list.kategori
+                });
+                row.child(judul);
+                row.child(kategori);
+                tmp.child(row);
+            });
+        });
+    };
+</script>

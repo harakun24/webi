@@ -1,6 +1,8 @@
 <?php
-include "../lib/db.php";
-session_start();
+include_once "../lib/db.php";
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 class buku extends Table
 {
     public $id;

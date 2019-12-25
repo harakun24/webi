@@ -24,7 +24,7 @@ if (isset($_GET['token'])) {
     }
 
 } else if (isset($_GET['clogin'])) {
-    $user->select("code")->where("user", $_GET['clogin'])
+    $user->select("code")->where("username", $_GET['clogin'])
         ->exec();
     if ($user->result->num_rows > 0) {
         echo json_encode("ok");

@@ -1,8 +1,33 @@
 <?php
 include "../model/buku.php";
+include "../model/kategori.php";
+include "../model/ven.php";
 $baru = new buku();
+$kat = new kategori();
+$shu = new penerbit();
+$sak = new penulis();
+
 if (isset($_GET['count'])) {
     echo $baru->getCount();
+} else if (isset($_GET['top'])) {
+    $tmp = $kat->top($_GET['top']);
+    echo json_encode($tmp);
+} else if (isset($_GET['cat'])) {
+    $tmp = $kat->selectAll()->exec()->fetch();
+    echo json_encode($tmp);
+
+} else if (isset($_GET['shu'])) {
+    $tmp = $shu->selectAll()->exec()->fetch();
+    echo json_encode($tmp);
+
+} else if (isset($_GET['sakka'])) {
+    $tmp = $sak->selectAll()->exec()->fetch();
+    echo json_encode($tmp);
+
+} else if (isset($_GET['list'])) {
+    $tmp = $baru->selectAll()->exec()->fetch();
+    echo json_encode($tmp);
+
 } else {
     $tmp = [];
     $baru->

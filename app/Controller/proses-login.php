@@ -6,4 +6,4 @@ if (isset($_GET['user'])) {
     $user = new user($_GET['user']);
     $_SESSION['user'] = $user->username;
 }
-header("Location: dashboard.php");
+header("Location: dashboard.php?url=home");
