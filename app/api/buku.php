@@ -27,7 +27,14 @@ if (isset($_GET['count'])) {
     echo json_encode($tmp);
 
 } else if (isset($_GET['list'])) {
-    $tmp = $baru->selectAll()->order("judul")->exec()->fetch();
+    $tmp;
+    if ($_GET['list'] == "kode") {
+        $tmp = $baru->selectAll()->order("kode")->exec()->fetch();
+    } else if ($_GET['list'] == "stok") {
+        $tmp = $baru->selectAll()->order("stok")->exec()->fetch();
+    } else {
+        $tmp = $baru->selectAll()->order("judul")->exec()->fetch();
+    }
     echo json_encode($tmp);
 
 } else if (isset($_GET['cek'])) {
@@ -55,14 +62,14 @@ if (isset($_GET['count'])) {
             echo json_encode($baru->result);
         }
     } else if ($_POST['data']['status'] == "edit") {
-       $baru->update()
-       ->set("judul",$data['judul'])
-       ->set("kategori",$data['kategori'])
-       ->set("penerbit",$data['penerbit'])
-       ->set("penulis",$data['penulis'])
-       ->set("stok",$data['stok'])
-       ->where("kode",$data['kode'])->exec();
-       echo json_encode($baru->result);
+        $baru->update()
+            ->set("judul", $data['judul'])
+            ->set("kategori", $data['kategori'])
+            ->set("penerbit", $data['penerbit'])
+            ->set("penulis", $data['penulis'])
+            ->set("stok", $data['stok'])
+            ->where("kode", $data['kode'])->exec();
+        echo json_encode($baru->result);
     } else if ($_POST['data']['status'] == "delete") {
         echo json_encode("berhasil menghapus");
     }

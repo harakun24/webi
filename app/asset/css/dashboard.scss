@@ -15,6 +15,7 @@ body {
     width: 100%;
     height: 100vh;
     background: #e9ebee;
+    overflow: hidden;
 }
 
 .nav {
@@ -209,6 +210,26 @@ body {
     height: 80%;
     margin-top: 5%;
     overflow: scroll;
+    scroll-margin: 50px 50px 50px 50px;
+    &::-webkit-scrollbar {
+        width: 25px;
+        height: 0;
+        &-thumb {
+            background: rgba(252, 103, 103, 0.26);
+            border-radius: 4px;
+            margin-left: 12px;
+            transition: cubic-bezier(0.39, 0.575, 0.565, 1) 0.5s;
+            border: 10px solid rgba(0, 0, 0, 0);
+            border-top: 25px solid rgba(0, 0, 0, 0);
+            border-bottom: 25px solid rgba(0, 0, 0, 0);
+            background-clip: padding-box;
+            &:hover {
+                background: rgba(243, 190, 44, 0.479);
+                border: 10px solid rgba(0, 0, 0, 0);
+                background-clip: padding-box;
+            }
+        }
+    }
     th,
     td {
         padding: 8px;
@@ -227,6 +248,11 @@ body {
             background: rgb(241, 66, 66);
             font-size: 120%;
             color: white;
+            cursor: pointer;
+            transition: cubic-bezier(0.215, 0.610, 0.355, 1) 0.5s;
+            &:hover {
+                background: rgb(255, 121, 121);
+            }
         }
         th:nth-child(3),
         th:nth-child(1) {
@@ -304,6 +330,54 @@ body {
         transition: cubic-bezier(0.645, 0.045, 0.355, 1) 0.5s;
         &:hover {
             background: rgb(245, 169, 28);
+        }
+    }
+}
+
+.floating-div {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.582);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: -500%;
+    transition: cubic-bezier(0.77, 0, 0.175, 1) 1s;
+}
+
+.float-row {
+    width: 90%;
+    height: 30%;
+    &:nth-child(2) {
+        font-size: 80%;
+        text-align: center;
+    }
+    &:nth-child(3) {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        button {
+            width: 40%;
+            height: 60%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            margin-top: 0%;
+            transition: cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.5s;
+            &:nth-child(1) {
+                background: rgb(240, 57, 87);
+            }
+            &:nth-child(2) {
+                background: rgb(240, 167, 57);
+            }
+            &:hover {
+                box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.377);
+            }
         }
     }
 }

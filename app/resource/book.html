@@ -2,7 +2,7 @@
     <div class="head">
         Manage
         <div class="action">
-            <img src="../asset/images/icon/show.png" alt="show" onclick="show()" />
+            <img src="../asset/images/icon/show.png" alt="show" onclick="show('kode')" />
             <img src="../asset/images/icon/add.png" alt="add" onclick="add()" />
             <img src="../asset/images/icon/edit.png" alt="edit" onclick="edit()" />
             <img src="../asset/images/icon/delete.png" alt="delete" onclick="delet()" />
@@ -13,7 +13,7 @@
     </div>
 </div>
 <script>
-    let show = () => {
+    let show = (req = "") => {
         let tmp = gElement(".body");
         tmp.innerHTML = "";
         let table = createUI({
@@ -25,22 +25,25 @@
         });
         let hk = createUI({
             content: "th",
-            val: "kode"
+            val: "kode",
+            onclick: "show('kode')"
         });
         let hj = createUI({
             content: "th",
-            val: "judul"
+            val: "judul",
+            onclick: "show('judul')"
         });
         let hs = createUI({
             content: "th",
-            val: "stok"
+            val: "stok",
+            onclick: "show('stok')"
         });
         r.child(hk);
         r.child(hj);
         r.child(hs);
         table.child(r);
 
-        get("../api/buku.php?list", e => {
+        get("../api/buku.php?list=" + req, e => {
             e.forEach(list => {
                 let row = createUI({
                     content: "tr"
@@ -192,7 +195,103 @@
         wrapper.child(btncek);
         tmp.child(wrapper);
     };
-    show();
+    let delet = () => {
+        // let cek = gElement("#kode");
+        // get("../api/buku.php?cek="+cek.value,e=>{
+        //     alert(e);
+        // });
+        // let tmp = gElement(".body");
+        // tmp.innerHTML = "";
+        // let wrapper = createUI({
+        //     content: "div",
+        //     class: "wrapper-sub"
+        // });
+        // let idi = createUI({
+        //     content: "input",
+        //     placeholder: "kode buku",
+        //     id: "kode"
+        // });
+        // let btncek = createUI({
+        //     content: "button",
+        //     val: "Hapus",
+        //     onclick: "floats()"
+        // });
+        // let confirm = createUI({
+        //     content: "div",
+        //     class: "floating-div"
+        // });
+
+        // confirm.child(
+        //     createUI({
+        //         content: "div",
+        //         class: "float-row",
+        //         id: "float-top"
+        //     })
+        // );
+        // confirm.child(
+        //     createUI({
+        //         content: "div",
+        //         class: "float-row",
+        //         id: "float-mid"
+        //     })
+        // );
+        // confirm.child(
+        //     createUI({
+        //         content: "div",
+        //         class: "float-row",
+        //         id: "float-btn"
+        //     })
+        // );
+        // wrapper.child(idi);
+        // wrapper.child(btncek);
+        // wrapper.child(confirm);
+        // tmp.child(wrapper);
+
+        // let g = gElement("#float-top");
+        // g.child(
+        //     createUI({
+        //         content: "h5",
+        //         val: "Apakah anda yakin ingin menghapus buku ini?"
+        //     })
+        // );
+        // g = gElement("#float-mid");
+        // g.child(
+        //     createUI({
+        //         content: "p",
+        //         val: "Judul:"
+        //     })
+        // );
+        // g.child(
+        //     createUI({
+        //         content: "p",
+        //         val: "Stok:"
+        //     })
+        // );
+        // g = gElement("#float-btn");
+        // g.child(
+        //     createUI({
+        //         content: "button",
+        //         val: "Ya"
+        //     })
+        // );
+        // g.child(
+        //     createUI({
+        //         content: "button",
+        //         val: "Tidak",
+        //         onclick: "back()"
+        //     })
+        // );
+    };
+    let back = () => {
+        g = gElement(".floating-div");
+        g.style.cssText = "margin-top:-500%";
+    };
+    let floats = () => {
+        g = gElement(".floating-div");
+        g.style.cssText = "margin-top:0%";
+    };
+    show("kode");
+    delet();
     // add();
     let temp;
     let cek = () => {
@@ -379,26 +478,24 @@
             stok.value < 0
         ) {
             alert("tolong isi semua kolom!");
-        }
-        else{
+        } else {
             let data = {
-            kategori: gElement("#kategori").selectedIndex,
-            judul: gElement("#judul").value,
-            penulis: gElement("#penulis").selectedIndex,
-            penerbit: gElement("#penerbit").selectedIndex,
-            stok: gElement("#stok").value,
-            status: "add"
-        };
+                kategori: gElement("#kategori").selectedIndex,
+                judul: gElement("#judul").value,
+                penulis: gElement("#penulis").selectedIndex,
+                penerbit: gElement("#penerbit").selectedIndex,
+                stok: gElement("#stok").value,
+                status: "add"
+            };
 
-        post(
-            "../api/buku.php", {
-                data: data
-            },
-            e => {
-                console.log(e);
-            }
-        ); 
+            post(
+                "../api/buku.php", {
+                    data: data
+                },
+                e => {
+                    console.log(e);
+                }
+            );
         }
-        
     };
 </script>

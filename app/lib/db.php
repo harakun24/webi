@@ -31,7 +31,7 @@ class Table
         $this->sql .= " from " . get_class($this);
         return $this;
     }
-    public function where($col, $val)
+    public function where($col, $val, $like = "no")
     {
 
         if (!strstr($this->sql, 'where')) {
@@ -39,8 +39,15 @@ class Table
         } else {
             $this->sql .= " and ";
         }
-
-        $this->sql .= $col . "= '" . $val . "' ";
+        if ($like == "no") {
+            $this->sql .= $col . "= '" . $val . "' ";
+        } else if ($like == "yes") {
+            $this->sql .= $col . "like '%" . $val . "%' ";
+        } else if ($like == "start") {
+            $this->sql .= $col . "like '" . $val . "%' ";
+        } else if ($like == "end") {
+            $this->sql .= $col . "like '%" . $val . "' ";
+        }
 
         return $this;
     }
