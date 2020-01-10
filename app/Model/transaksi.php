@@ -17,7 +17,7 @@ class peminjaman extends Table
     }
     public function getID()
     {
-        $res = $this->select("id")->order("id", "desc")->limit(1)->exec()->fetch();
+        $res = $this->select("id")->order("tanggal_pinjam", "desc")->limit(1)->exec()->fetch();
         return "p-$_SESSION[user]::" . (explode("::", $res[0]['id'])[1] + 1);
     }
 }

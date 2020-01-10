@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <script src="http://webi.com/app/asset/js/dim2.js"></script>
+    <link rel="stylesheet" href="http://webi.com/app/asset/css/email.css" />
+</head>
+
+<body>
+    <div class="back"></div>
+    <div class="dialog">
+        <h3>Cek Emailmu untuk mendapat kode verifikasi</h3>
+        <input type="text" id="email" placeholder="Kode konfirmasi" />
+        <div class="bottom">
+            <button onclick="v()">Verifikasi</button>
+            <button onclick="window.location.reload()">Kirim ulang</button>
+        </div>
+    </div>
+    <script>
+    let v =()=>{
+        let kode=gElement("#email");
+        get("http://webi.com/api/user?k="+kode+"&u="+"",e=>{
+            if(e=="ok"){
+                window.location.replace("http://webi.com/login");
+            }
+            else{
+                alert("kode salah");
+            }
+        })
+    }
+    </script>
+</body>
+
+</html>

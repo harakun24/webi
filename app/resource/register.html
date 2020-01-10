@@ -41,6 +41,14 @@
         </div>
     </div>
     <script>
+        let media = {
+            desktop: [
+                ["(min-width:850px)", "app/asset/css/singup.css"],
+                ["(max-width:800px)", "app/asset/css/singup-min.css"]
+            ],
+            mobile: "app/asset/css/dashboard-min.css"
+        };
+        rcss(media);
         let lock = [false, false, false, false];
         let status = 1;
         let status1 = 1;

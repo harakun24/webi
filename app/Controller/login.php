@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['user'])) {
-    header("Location: plogin");
+    header("Location: plogin?user=$_SESSION[user]");
 }
 
 $base = "http://webi.com/";

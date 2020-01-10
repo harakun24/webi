@@ -28,7 +28,7 @@ $con = connect();
         <div class="row">
             <div class="box">
             <p>
-            &nbsp;&nbsp;&nbsp;&nbsp;Lebih dari <b> 40000</b> user telah
+            &nbsp;&nbsp;&nbsp;&nbsp;Lebih dari <b id="log"> Nan</b> user telah
             mendaftar. jangan lewatkan kesempatan ini dan mulai bergabung dengan
             pustakaku sekarang.
             </p>
@@ -46,8 +46,16 @@ $con = connect();
 
         </div>
         </div>
-        <div class="mdl" id="info"></div>
+        <div class="mdl" id="info">
+           
+        </div>
     </div>
+    <script>
+    let b=gElement("#log");
+    get("api/visitor?log",e=>{
+        b.innerHTML=e[0].c;
+    })
+    </script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <?php
-include("../lib/db.php");
+include_once("../lib/db.php");
 class log extends Table{
     public function getByMonth(){
         $tmp = $this->select("month(date) as bulan, count(*) as jumlah")
@@ -19,5 +19,6 @@ class log extends Table{
         
         return json_encode($tmp);
     }
+    
 };
 ?>

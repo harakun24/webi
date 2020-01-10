@@ -58,6 +58,16 @@ if (isset($_GET['token'])) {
         echo json_encode("bad! $e");
     }
 
+} else if (isset($_GET['k'])&&isset($_GET['u'])) {
+    $tmp=$user->select('code')->where("username",$_GET['u'])->exec()->fetch();
+    if($_GET['k']==$tmp[0]['code']){
+        $user->update()->set("verify","y")
+        ->where("username",$_GET['u'])->exec();
+        echo json_encode("ok");
+    }
+    else{
+        echo json_encode("bad!");
+    }
 } else {
     echo json_encode("refuse");
 }

@@ -7,8 +7,8 @@
 </div>
 <div class="float-edit">
     <input type="hidden" name="kode" id="edit-kode" />
-    <input type="text" name="nama" id="edit-nama" placeholder="nama karyawan" />
-    <input type="text" name="nama" id="edit-email" placeholder="alamat email" />
+    <input type="text" name="nama" id="edit-nama" placeholder="nama visitor" />
+    <input type="text" name="nama" id="edit-jk" placeholder="alamat jk" />
     <input type="text" name="nama" id="edit-alamat" placeholder="tempat tinggal" />
 
     <div class="line-btn">
@@ -17,8 +17,8 @@
     </div>
 </div>
 <div class="float-tambah">
-    <input type="text" name="nama" id="tambah-nama" placeholder="nama karyawan" />
-    <input type="text" name="nama" id="tambah-email" placeholder="alamat email" />
+    <input type="text" name="nama" id="tambah-nama" placeholder="nama visitor" />
+    <input type="text" name="nama" id="tambah-jk" placeholder="alamat jk" />
     <input type="text" name="nama" id="tambah-alamat" placeholder="tempat tinggal" />
 
     <div class="line-btn">
@@ -52,8 +52,8 @@
         });
         let hkd = createUI({
             content: "th",
-            val: "email",
-            onclick: "show('email')"
+            val: "jk",
+            onclick: "show('jk')"
         });
         let hs = createUI({
             content: "th",
@@ -73,7 +73,7 @@
         r.child(ha);
         table.child(r);
 
-        get("http://webi.com/api/karyawan?list", e => {
+        get("http://webi.com/api/visitor2?list", e => {
             e.forEach(list => {
                 let row = createUI({
                     content: "tr"
@@ -89,7 +89,7 @@
                 });
                 let kategori = createUI({
                     content: "td",
-                    val: list.email
+                    val: list.jk
                 });
                 let stok = createUI({
                     content: "td",
@@ -132,30 +132,30 @@
     let edit = id => {
         g = gElement(".float-edit");
         g.style.cssText = "top:10VH";
-        let shu = gElement("#edit-email");
+        let shu = gElement("#edit-jk");
         let sakk = gElement("#edit-alamat");
         let nama = gElement("#edit-nama");
-        get("http://webi.com/api/karyawan?cek=" + id, e => {
+        get("http://webi.com/api/visitor2?cek=" + id, e => {
             nama.value = e[0].nama;
-            shu.value = e[0].email;
+            shu.value = e[0].jk;
             sakk.value = e[0].alamat;
             q=id;
         });
     };
     let actedit = () => {
         let judl = gElement("#edit-nama");
-        let shu = gElement("#edit-email");
+        let shu = gElement("#edit-jk");
         let sakka = gElement("#edit-alamat");
 
         let data = {
             id: q,
             nama: judl.value,
-            email: shu.value,
+            jk: shu.value,
             alamat: sakka.value,
             status: "edit"
         };
         post(
-            "http://webi.com/api/karyawan", {
+            "http://webi.com/api/visitor2", {
                 data: data
             },
             e => {
@@ -197,7 +197,7 @@
         g.child(
             createUI({
                 content: "h5",
-                val: "Apakah anda yakin ingin menghapus karyawan?"
+                val: "Apakah anda yakin ingin menghapus visitor2?"
             })
         );
         g = gElement("#float-mid");
@@ -232,7 +232,7 @@
                 onclick: "back()"
             })
         );
-        get("http://webi.com/api/karyawan?cek=" + id, e => {
+        get("http://webi.com/api/visitor2?cek=" + id, e => {
             if (e == "null") {
                 alert("Buku tidak ditemukan");
             } else {
@@ -259,7 +259,7 @@
         let tmp = gElement(".body");
 
         let nama = gElement("#kode");
-        get("http://webi.com/api/karyawan?cek=" + nama.value, e => {
+        get("http://webi.com/api/visitor2?cek=" + nama.value, e => {
             let v = e[0];
             !temp ? (temp = tmp.innerHTML) : (tmp.innerHTML = temp);
             console.log(e);
@@ -280,9 +280,9 @@
                     content: "select",
                     id: "kategori"
                 });
-                let email = createUI({
+                let jk = createUI({
                     content: "select",
-                    id: "email"
+                    id: "jk"
                 });
                 let alamat = createUI({
                     content: "select",
@@ -302,11 +302,11 @@
                         val: "--pilih kategori--"
                     })
                 );
-                email.child(
+                jk.child(
                     createUI({
                         content: "option",
                         value: "x",
-                        val: "--pilih email--"
+                        val: "--pilih jk--"
                     })
                 );
                 alamat.child(
@@ -316,10 +316,10 @@
                         val: "--pilih alamat--"
                     })
                 );
-                get("http://webi.com/api/karyawan?shu", e => {
+                get("http://webi.com/api/visitor2?shu", e => {
                     e.forEach(f => {
                         let option;
-                        if (v.email == f.id) {
+                        if (v.jk == f.id) {
                             option = createUI({
                                 content: "option",
                                 value: f.id,
@@ -334,10 +334,10 @@
                             });
                         }
 
-                        email.child(option);
+                        jk.child(option);
                     });
                 });
-                get("http://webi.com/api/karyawan?sakka", e => {
+                get("http://webi.com/api/visitor2?sakka", e => {
                     e.forEach(f => {
                         let option;
                         if (v.alamat == f.id) {
@@ -357,7 +357,7 @@
                         alamat.child(option);
                     });
                 });
-                get("http://webi.com/api/karyawan?cat", e => {
+                get("http://webi.com/api/visitor2?cat", e => {
                     e.forEach(f => {
                         let option;
                         if (v.kategori == f.id) {
@@ -379,7 +379,7 @@
                 });
                 wrp.child(nama);
                 wrp.child(kategori);
-                wrp.child(email);
+                wrp.child(jk);
                 wrp.child(alamat);
                 wrp.child(stok);
                 tmp.child(wrp);
@@ -397,7 +397,7 @@
     };
     let submit = () => {
         let kat = gElement("#kategori");
-        let shu = gElement("#email");
+        let shu = gElement("#jk");
         let sakka = gElement("#alamat");
         let stok = gElement("#stok");
         if (
@@ -413,12 +413,12 @@
                 kategori: gElement("#kategori").selectedIndex,
                 nama: gElement("#nama").value,
                 alamat: gElement("#alamat").selectedIndex,
-                email: gElement("#email").selectedIndex,
+                jk: gElement("#jk").selectedIndex,
                 stok: gElement("#stok").value,
                 status: "edit"
             };
             post(
-                "http://webi.com/apiapi/karyawan.php", {
+                "http://webi.com/apiapi/visitor2.php", {
                     data: data
                 },
                 e => {
@@ -428,18 +428,18 @@
         }
     };
     let tambah = () => {
-        let shu = gElement("#tambah-email");
+        let shu = gElement("#tambah-jk");
         let sakk = gElement("#tambah-alamat");
         let nama = gElement("#tambah-nama");
         
             let data = {
                 nama:nama.value,
-                email:shu.value,
+                jk:shu.value,
                 alamat:sakk.value,
                 status: "add"
             };
             post(
-                "http://webi.com/api/karyawan", {
+                "http://webi.com/api/visitor2", {
                     data: data
                 },
                 e => {
@@ -456,7 +456,7 @@
             status: "delete"
         };
         post(
-            "http://webi.com/api/karyawan", {
+            "http://webi.com/api/visitor2", {
                 data: data
             },
             e => {

@@ -15,7 +15,7 @@ class Mail{
     }
     public static function Send($target,$sub,$body,$then=""){
 ?>
-<script src="../asset/js/smtp.js"></script>
+<script src="http://webi.com/app/asset/js/smtp.js"></script>
     <script>
     Email.send({
         SecureToken: "<?php echo self::$token?>",
@@ -33,5 +33,6 @@ class Mail{
     }
 }
 Mail::init();
-Mail::Send("jkt48eater@gmail.com","baru","hai","alert('hai')");
+Mail::Send("dimasoppo448@gmail.com","baru","hai dim","console.log('hai')");
+
 ?>

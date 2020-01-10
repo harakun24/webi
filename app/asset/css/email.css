@@ -1,0 +1,80 @@
+body {
+  margin: 0;
+  background: #7cdfbe;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  outline: none;
+}
+
+.back {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  -webkit-filter: blur(4px);
+          filter: blur(4px);
+  background: url("../images/back.jpg");
+  background-size: auto 150%;
+  z-index: -1;
+  top: 0;
+}
+
+.dialog {
+  position: absolute;
+  width: 80%;
+  max-width: 780px;
+  height: 50vh;
+  background: white;
+  border-radius: 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.dialog input {
+  width: 60%;
+  padding-left: 12px;
+  height: 15%;
+  border: 0.5px solid rgba(75, 72, 72, 0.418);
+  border-radius: 4px;
+}
+
+.bottom {
+  width: 60%;
+  height: 20%;
+  margin-top: 15px;
+}
+
+.bottom button {
+  border: 0;
+  width: 30%;
+  height: 60%;
+  color: white;
+  background: #f54915;
+  cursor: pointer;
+}
+
+.bottom button:nth-child(1) {
+  background: #1d74f8;
+}
+/*# sourceMappingURL=email.css.map */

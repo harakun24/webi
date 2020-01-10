@@ -10,6 +10,7 @@ class buku extends Table
     public function getCount()
     {
         $tmp = $this->select("count(*) as hasil")
+            ->where("user",$_SESSION['user'])
             ->exec()->fetch();
         return json_encode($tmp[0]['hasil']);
     }

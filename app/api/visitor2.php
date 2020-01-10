@@ -1,11 +1,12 @@
 <?php
 $_POST = json_decode(file_get_contents('php://input'), true);
-error_reporting(0);
-session_start();
-include "../model/karayawan.php";
-$baru = new karyawan();
+// error_reporting(0);
+// session_start();
+include "../model/visitor.php";
+$baru = new visitor();
 
 if (isset($_GET['list'])) {
+    echo $_GET['list'];
     if (isset($_SESSION['user'])) {
 
         $tmp = $baru->selectAll()
@@ -25,8 +26,8 @@ if (isset($_GET['list'])) {
     }
 
 } 
-else if (isset($_GET['karyawan'])) {
-    $tmp = $baru->selectAll()->where('id', $_GET['karyawan'],"start")->exec()->fetch();
+else if (isset($_GET['visitor'])) {
+    $tmp = $baru->selectAll()->where('id', $_GET['visitor'],"start")->exec()->fetch();
     if ($baru->result->num_rows > 0) {
         echo json_encode($tmp);
     } else {
@@ -38,14 +39,14 @@ else if (isset($_POST['data'])) {
     $data = $_POST['data'];
     if ($data['status'] == "add") {
         $temp = $baru->getNewId();
-        $baru->insert()->col("id", "nama", "email", "alamat")
-            ->val($temp, $data['nama'], $data['email'], $data['alamat'])->exec();
+        $baru->insert()->col("id", "nama", "jk", "alamat")
+            ->val($temp, $data['nama'], $data['jk'], $data['alamat'])->exec();
         echo json_encode($baru->result);
 
     } else if ($_POST['data']['status'] == "edit") {
         $baru->update()
             ->set("nama", $data['nama'])
-            ->set("email", $data['email'])
+            ->set("jk", $data['jk'])
             ->set("alamat", $data['alamat'])
             ->where("id", $data['id'])->exec();
         echo json_encode($baru->result);

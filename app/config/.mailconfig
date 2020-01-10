@@ -1,8 +1,8 @@
 <?php
 
-$token = "9e197296-9e68-4556-ae9c-f821e08a3d7e";
-$username ="dimasoppo448@gmail.com";
-$password = "DF17F363FDE38B868CDA9F10E1B178067905";
-$server = "smtp.elasticemail.com";
-$port = "2525";
+$token = "15b77f98-2073-4d0c-835c-1cec3d7607f2";
+$username ="postmaster@sandbox8e8e895250dc49288d3692b73a622b3d.mailgun.org";
+$password = "de71499059b7630b71bf44537410430e-f8b3d330-844b35a4";
+$server = "smtp.mailgun.org";
+$port = "587";
 ?>

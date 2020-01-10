@@ -354,6 +354,7 @@ body {
   width: 100%;
   max-width: 100%;
   white-space: nowrap;
+  margin-top: 5%;
   -webkit-transition: cubic-bezier(0.95, 0.05, 0.795, 0.035) 0.5s;
   transition: cubic-bezier(0.95, 0.05, 0.795, 0.035) 0.5s;
 }

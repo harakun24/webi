@@ -41,5 +41,11 @@ class User extends Table{
         $tmp->all=$tmp->verify+$tmp->not;
         return json_encode($tmp);
     }
+    public function getStatus(){
+        $tmp=$this->select('verify as v')->where("username",$this->username)
+        ->exec()->fetch();
+        return $tmp[0]['v'];
+    }
 
 }
+

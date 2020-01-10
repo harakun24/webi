@@ -14,7 +14,7 @@ body {
   height: 100vh;
   -webkit-filter: blur(4px);
           filter: blur(4px);
-  background: url("../images/back.jpg");
+  background: url("app/asset/images/back.jpg");
   background-size: auto 150%;
   z-index: -1;
   top: 0;
@@ -141,7 +141,7 @@ body {
   right: 12%;
   width: 12%;
   height: 70%;
-  background-image: url("../images/hide.png");
+  background-image: url("app/asset/images/hide.png");
   background-color: white;
   background-size: 80%;
   background-position-y: 60%;

@@ -213,6 +213,7 @@
                     no++;
                     post("http://webi.com/api/exten", data, f => {
                         console.log(f);
+                        window.location.reload();
                     });
                 });
             }

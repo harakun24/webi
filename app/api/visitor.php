@@ -3,6 +3,7 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 error_reporting(0);
 session_start();
 include "../model/visitor.php";
+include "../model/log.php";
 $baru = new visitor();
 
 if (isset($_GET['list'])) {
@@ -51,7 +52,13 @@ else if (isset($_POST['data'])) {
         $baru->delete()->where("id", $data['id'])->exec();
         echo json_encode($baru->result);
     }
-} else {
+   
+}  else if(isset($_GET['log'])){
+    $tmp=new log();
+    $temp=$tmp->select("count(*) as c")->exec()->fetch();
+    echo json_encode($temp);
+
+}else {
     // $tmp = [];
     // $baru->
     //     select("buku.kode", "buku.judul", "kategori.nama as kategori", "penerbit.nama as penerbit", "penulis.nama as penulis", "buku.stok")
