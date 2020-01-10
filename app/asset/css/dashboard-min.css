@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  background: #00ff15;
 }
 
 * {
@@ -39,6 +40,7 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  font-size: 80%;
 }
 
 .nav section {
@@ -356,6 +358,7 @@ body {
   white-space: nowrap;
   -webkit-transition: cubic-bezier(0.95, 0.05, 0.795, 0.035) 0.5s;
   transition: cubic-bezier(0.95, 0.05, 0.795, 0.035) 0.5s;
+  margin-top: 5%;
 }
 
 .body table th {
@@ -551,7 +554,7 @@ body {
 }
 
 .kaegori {
-  width: 50%;
+  width: 30%;
   margin-top: 5px;
   margin-left: 50px;
   margin-right: 50px;
@@ -836,4 +839,4 @@ body {
 .dd button {
   margin-left: 12px;
 }
-/*# sourceMappingURL=dashboard.css.map */
+/*# sourceMappingURL=dashboard-min.css.map */

@@ -6,6 +6,7 @@ RewriteRule ^api/visitor app/api/visitor.php
 RewriteRule ^api/transaksi app/api/transaksi.php
 RewriteRule ^api/karyawan app/api/karyawan.php
 RewriteRule ^api/list app/api/transaksi.php
+RewriteRule ^api/exten app/api/detail_transaksi.php
 RewriteRule ^login app/Controller/login.php
 RewriteRule ^signup app/Controller/register.php
 RewriteRule ^signout app/Controller/logot.php

@@ -4,11 +4,15 @@
       <option value="xx">--pilih--</option>
     </select>
         <input type="text" id="visitor" />
-        <button onclick="tambah()">Tambah</button>
+        <button onclick="tambah()">Baru</button>
     </div>
     <div class="usr-right"></div>
 </div>
 <script>
+    let no = 0;
+    let arrkode = [];
+    let arrqty = [];
+    let arrbuku = [];
     get(
         "http://webi.com/api/karyawan?karyawan=<?php echo $_SESSION['user']?>",
         e => {
@@ -35,8 +39,190 @@
             get("http://webi.com/api/visitor?cek=" + visitor.value, e => {
                 if (e == "null") {
                     alert("visitor tidak ditemukan");
-                } else {}
+                } else {
+                    let tambah = {
+                        karyawan: karyawan,
+                        visitor: visitor.value
+                    };
+                    post("http://webi.com/api/transaksi", tambah, e => {
+                        if (e == "ok") {
+                            let buku = createUI({
+                                content: "div",
+                                class: "buku"
+                            });
+                            let kode = createUI({
+                                content: "input",
+                                id: "kode",
+                                placeholder: "kode buku"
+                            });
+                            let qty = createUI({
+                                content: "input",
+                                id: "qty",
+                                placeholder: "Jumlah",
+                                type: "number"
+                            });
+                            let n = createUI({
+                                content: "button",
+                                id: "lanjut",
+                                val: "Tambah",
+                                onclick: "list()"
+                            });
+                            let tbl = createUI({
+                                content: "table",
+                                id: "datatable"
+                            });
+                            let th = ["no.", "nama", "jumlah", "aksi"];
+                            let row = createUI({
+                                content: "tr"
+                            });
+                            th.forEach(e => {
+                                let t = createUI({
+                                    content: "th",
+                                    val: e
+                                });
+                                row.child(t);
+                            });
+                            tbl.child(row);
+                            let r = gElement(".usr-right");
+                            buku.child(kode);
+                            buku.child(qty);
+                            buku.child(n);
+                            r.child(buku);
+                            r.child(tbl);
+                        }
+                    });
+                }
             });
         }
+        let simapn = createUI({
+            content: "button",
+            class: "edit",
+            val: "Simpan",
+            onclick: "simpan()"
+        });
+        let batal = createUI({
+            content: "button",
+            class: "Hapus",
+            val: "Batal",
+            onclick: "batal()"
+        });
+        let z = createUI({
+            content: "div",
+            class: "dd"
+        });
+
+        let y = gElement(".usr-right");
+        z.child(simapn);
+        z.child(batal);
+        y.child(z);
+    };
+    let list = () => {
+        let tbl = gElement("#datatable");
+        let kode = gElement("#kode");
+        kode = kode.value;
+        let q = gElement("#qty");
+        q = q.value;
+        get("http://webi.com/api/buku?cek=" + kode, e => {
+            if (e == "null") {
+                alert("buku tidak tersedia");
+            } else {
+                let val = e[0].judul;
+                arrkode.push(e[0].kode);
+                console.log(arrkode);
+                no++;
+                let r = createUI({
+                    content: "tr",
+                    id: "r" + e[0].kode
+                });
+                let d = createUI({
+                    content: "td",
+                    val: no
+                });
+                r.child(d);
+
+                let d2 = createUI({
+                    content: "td",
+                    val: val
+                });
+                r.child(d2);
+
+                let qty = gElement("#qty");
+                arrqty.push(qty.value);
+
+                let q = createUI({
+                    content: "td",
+                    val: qty.value
+                });
+                r.child(q);
+                let a = createUI({
+                    content: "td"
+                });
+                let btn1 = createUI({
+                    content: "button",
+                    class: "edit",
+                    val: "Edit",
+                    onclick: "edit(" + e[0].kode + ")"
+                });
+                let btn2 = createUI({
+                    content: "button",
+                    class: "hapus",
+                    val: "Hapus",
+                    onclick: "hapus(" + e[0].kode + ")"
+                });
+                a.child(btn1);
+                a.child(btn2);
+                r.child(a);
+                tbl.child(r);
+            }
+        });
+    };
+    let hapus = e => {
+        let n = 0;
+        let temp = [];
+        arrkode.forEach(f => {
+            n++;
+            if (f != e) {
+                temp.push(f);
+            } else {
+                arrqty.splice(n, 1);
+            }
+        });
+        arrkode = temp;
+        let r = gElement("#r" + e);
+        let tbl = gElement("#datatable");
+        // r.unset();
+        tbl.removeChild(r);
+    };
+    let simpan = () => {
+        let karyawan = gElement("#karyawan");
+        let visitor = gElement("#visitor");
+        get(
+            "http://webi.com/api/transaksi?aktif&karyawan=" +
+            karyawan.value +
+            "&visitor=" +
+            visitor.value,
+            e => {
+                let id = e[0].id;
+                let no = 0;
+                arrkode.forEach(e => {
+                    let data = {
+                        id: id,
+                        buku: e,
+                        qty: arrqty[no]
+                    };
+                    no++;
+                    post("http://webi.com/api/exten", data, f => {
+                        console.log(f);
+                    });
+                });
+            }
+        );
+    };
+    let batal = () => {
+        no = 0;
+        arrkode = [];
+        arrqty = [];
+        let r = gElement(".usr-right");
+        r.innerHTML = "";
     };
 </script>

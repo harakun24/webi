@@ -25,6 +25,10 @@ if (isset($_GET['list'])) {
     }
 
 } 
+else if (isset($_GET['count'])) {
+    $temp=$baru->select("count(*) as c")->exec()->fetch();
+    echo json_encode($temp);
+} 
 
 else if (isset($_POST['data'])) {
     $data = $_POST['data'];

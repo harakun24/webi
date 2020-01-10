@@ -70,7 +70,6 @@
 
         get("http://webi.com/api/karyawan?list=" + req, e => {
             e.forEach(list => {
-                alert(list.id);
                 let row = createUI({
                     content: "tr"
                 });

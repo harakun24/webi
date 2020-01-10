@@ -7,14 +7,14 @@
         </div>
     </div>
     <div class="col">
-        <h1>4000</h1>
-        <b>Buku dipinjam</b>
-        <div class="hid-act">
-            <h3>Kelola</h3>
-        </div>
+        <h1 id="transaksi">&nbsp;</h1>
+            <b>Buku dipinjam</b>
+            <div class="hid-act">
+                <h3>Kelola</h3>
+            </div>
     </div>
     <div class="col">
-        <h1>4000</h1>
+        <h1 id="visitor">&nbsp;</h1>
         <b>Visitor</b>
         <div class="hid-act">
             <h3>Kelola</h3>
@@ -128,6 +128,27 @@
                 temp = e;
                 let total = gElement("#buku");
                 total.innerHTML = e;
+            }
+        });
+    }, 300);
+    let temp2;
+    setInterval(() => {
+        get("http://webi.com/api/transaksi?count", e => {
+            if (JSON.stringify(temp2) != JSON.stringify(e)) {
+                temp2 = e;
+                let total = gElement("#transaksi");
+                total.innerHTML = e[0].c;
+            }
+        });
+    }, 300);
+    let temp3;
+
+    setInterval(() => {
+        get("http://webi.com/api/visitor?count", e => {
+            if (JSON.stringify(temp3) != JSON.stringify(e)) {
+                temp3 = e;
+                let total = gElement("#visitor");
+                total.innerHTML = e[0].c;
             }
         });
     }, 300);
