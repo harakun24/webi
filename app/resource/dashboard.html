@@ -1,9 +1,9 @@
 <html>
 
 <head>
-    <script src="../asset/js/dim2.js"></script>
-    <script src="../asset/js/chart.js"></script>
-    <link rel="stylesheet" href="../asset/css/dashboard.css" />
+    <script src="../app/asset/js/dim2.js"></script>
+    <script src="../app/asset/js/chart.js"></script>
+    <link rel="stylesheet" href="../app/asset/css/dashboard.css" />
 </head>
 
 <body>
@@ -11,7 +11,7 @@
         <button class="btn-nav">&#9776;</button>
         <div class="active-art">
             <?php
-                include("../resource/$_GET[url].html");
+                include("$_GET[url].html");
             ?>
         </div>
     </div>
@@ -22,19 +22,19 @@
         </h5>
 
         <section>
-            <div class="li" onclick="document.location.replace('dashboard.php?url=home')">
+            <div class="li" onclick="window.location.assign('dashboard')">
                 HOME
             </div>
-            <div class="li" onclick="document.location.replace('dashboard.php?url=home')">
-                PROFIL
+            <div class="li" onclick="window.location.assign('peminjaman')">
+                PEMINJAMAN
             </div>
-            <div class="li" onclick="document.location.replace('dashboard.php?url=home')">
+            <div class="li" onclick="window.location.assign('karyawan')">
                 KARYAWAN
             </div>
-            <div class="li" onclick="document.location.replace('dashboard.php?url=book')">
+            <div class="li" onclick="window.location.assign('buku')">
                 BUKU
             </div>
-            <div class="li" onclick="document.location.replace('dashboard.php?url=home')">
+            <div class="li" onclick="window.location.assign('visitor')">
                 VISITOR
             </div>
             <div class="li" onclick="logot()">
@@ -59,8 +59,8 @@
         };
 
         function logot() {
-            get("logot.php", () => {
-                window.location.replace("login.php");
+            get("signout", () => {
+                window.location.assign("login");
             });
         }
     </script>

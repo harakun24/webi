@@ -1,6 +1,6 @@
 <?php
 $_POST = json_decode(file_get_contents('php://input'), true);
-
+session_start();
 include "../model/buku.php";
 include "../model/kategori.php";
 include "../model/ven.php";
@@ -27,15 +27,44 @@ if (isset($_GET['count'])) {
     echo json_encode($tmp);
 
 } else if (isset($_GET['list'])) {
-    $tmp;
-    if ($_GET['list'] == "kode") {
-        $tmp = $baru->selectAll()->order("kode")->exec()->fetch();
-    } else if ($_GET['list'] == "stok") {
-        $tmp = $baru->selectAll()->order("stok")->exec()->fetch();
+    if (isset($_SESSION['user'])) {
+        if ($_GET['list'] == "stok") {
+            $tmp = $baru->select("kode", "kategori.nama as kategori", "judul", "penerbit"
+                , "penulis", "stok")->join("kategori")->on("id", "kategori")
+                ->where("user", $_SESSION['user'])
+                ->order($_GET['list'], "desc")->exec()->fetch();
+
+        } else {
+            $tmp = $baru->select("kode", "kategori.nama as kategori", "judul", "penerbit"
+                , "penulis", "stok")->join("kategori")->on("id", "kategori")
+                ->where("user", $_SESSION['user'])
+                ->order($_GET['list'])->exec()->fetch();
+
+        }
+
+        echo json_encode($tmp);
     } else {
-        $tmp = $baru->selectAll()->order("judul")->exec()->fetch();
+        echo json_encode("refuse");
     }
-    echo json_encode($tmp);
+
+} else if (isset($_GET['cari'])) {
+    if (isset($_SESSION['user'])) {
+        
+            $tmp = $baru->select("kode", "kategori.nama as kategori", "judul", "penerbit"
+                , "penulis", "stok")->join("kategori")->on("id", "kategori")
+                ->where("user", $_SESSION['user'])
+                ->where("judul", $_GET['cari'], "yes")
+                ->order("judul", "desc")->exec()->fetch();
+
+        
+            
+
+        
+
+        echo json_encode($tmp);
+    } else {
+        echo json_encode("refuse");
+    }
 
 } else if (isset($_GET['cek'])) {
     $tmp = $baru->selectAll()->where('kode', $_GET['cek'])->exec()->fetch();
@@ -71,7 +100,8 @@ if (isset($_GET['count'])) {
             ->where("kode", $data['kode'])->exec();
         echo json_encode($baru->result);
     } else if ($_POST['data']['status'] == "delete") {
-        echo json_encode("berhasil menghapus");
+        $baru->delete()->where("kode", $data['kode'])->exec();
+        echo json_encode($baru->result);
     }
 } else {
     // $tmp = [];

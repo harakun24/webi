@@ -4,7 +4,7 @@ function connect()
     include "../config/.dbconfig";
     $con = new mysqli($host, $user, $password, $db);
     if ($con->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        die("Connection failed: " . $con->connect_error);
     }
 
     return $con;
@@ -13,6 +13,7 @@ function connect()
 class Table
 {
     public $sql;
+    private $tabel;
     public $result;
     public function selectAll()
     {
@@ -42,11 +43,11 @@ class Table
         if ($like == "no") {
             $this->sql .= $col . "= '" . $val . "' ";
         } else if ($like == "yes") {
-            $this->sql .= $col . "like '%" . $val . "%' ";
+            $this->sql .= $col . " like '%" . $val . "%' ";
         } else if ($like == "start") {
-            $this->sql .= $col . "like '" . $val . "%' ";
+            $this->sql .= $col . " like '" . $val . "%' ";
         } else if ($like == "end") {
-            $this->sql .= $col . "like '%" . $val . "' ";
+            $this->sql .= $col . " like '%" . $val . "' ";
         }
 
         return $this;
@@ -70,11 +71,22 @@ class Table
         $this->sql .= " limit $int ";
         return $this;
     }
-    public function join($tabel, $left, $right)
+    public function join($tabel)
     {
-        $this->sql .= " join " . $tabel . " on ";
-        $this->sql .= get_class($this) . ".$left = " . $tabel . ".$right";
+        $this->sql .= " join " . $tabel . " ";
+        $this->tabel = $tabel;
         return $this;
+    }
+    public function on($r, $l, $s = true)
+    {
+        $this->sql .= " on ";
+        if ($s) {
+            $this->sql .= get_class($this) . ".$l = " . $this->tabel . ".$r";
+        } else {
+            $this->sql .= "$l = $r";
+        }
+        return $this;
+
     }
     public function left($tabel, $left, $right)
     {

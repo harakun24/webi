@@ -1,9 +1,9 @@
 <html>
 
 <head>
-    <script src="../asset/js/dim2.js"></script>
-    <script src="../asset/js/lib.js"></script>
-    <link rel="stylesheet" href="../asset/css/singup.css?v=2">
+    <script src="app/asset/js/dim2.js"></script>
+    <script src="app/asset/js/lib.js"></script>
+    <link rel="stylesheet" href="app/asset/css/singup.css?v=2" />
 </head>
 
 <body>
@@ -11,23 +11,23 @@
     <div class="form">
         <h1>Sign up</h1>
         <div class="input-list">
-            <input type="text" maxlength="12" id="username" placeholder="username" onkeyup="cekifexist()">
+            <input type="text" maxlength="12" id="username" placeholder="username" onkeyup="cekifexist()" />
             <label for="username" id="usr">username</label>
         </div>
 
         <div class="input-list">
-            <input type="email" id="email" placeholder="email" onkeyup="emailcek()">
+            <input type="email" id="email" placeholder="email" onkeyup="emailcek()" />
             <label for="email" id="mail">email</label>
         </div>
 
         <div class="input-list">
-            <input type="password" id="password" placeholder="password" onkeyup="pass()">
+            <input type="password" id="password" placeholder="password" onkeyup="pass()" />
             <label for="password" id="pass">password</label>
             <div class="show" id="psw"></div>
         </div>
 
         <div class="input-list">
-            <input type="password" id="re-type" placeholder="re-type" onkeyup="retype()">
+            <input type="password" id="re-type" placeholder="re-type" onkeyup="retype()" />
             <label for="re-type" id="rtype">re-type</label>
             <div class="show" id="rtp"></div>
         </div>
@@ -36,10 +36,9 @@
             <button id="cek">Bergabung</button>
             <a href="login">sudah punya akun?
 
-                    <div class="cover">Masuk</div>
-                </a>
+          <div class="cover">Masuk</div>
+        </a>
         </div>
-
     </div>
     <script>
         let lock = [false, false, false, false];
@@ -50,31 +49,33 @@
 
         ipt.onclick = function() {
             if (status) {
-                this.style.cssText = "background-image:url(app/asset/images/show.png?v=2)";
+                this.style.cssText =
+                    "background-image:url(app/asset/images/show.png?v=2)";
 
                 this.parentNode.children[0].type = "text";
                 status = 0;
             } else {
-                this.style.cssText = "background-image:url(app/asset/images/hide.png)";
+                this.style.cssText =
+                    "background-image:url(app/asset/images/hide.png)";
                 this.parentNode.children[0].type = "password";
                 status = 1;
-
             }
-        }
+        };
 
         ipt2.onclick = function() {
             if (status1) {
-                this.style.cssText = "background-image:url(app/asset/images/show.png?v=2)";
+                this.style.cssText =
+                    "background-image:url(app/asset/images/show.png?v=2)";
 
                 this.parentNode.children[0].type = "text";
                 status1 = 0;
             } else {
-                this.style.cssText = "background-image:url(app/asset/images/hide.png)";
+                this.style.cssText =
+                    "background-image:url(app/asset/images/hide.png)";
                 this.parentNode.children[0].type = "password";
                 status1 = 1;
-
             }
-        }
+        };
 
         let submit = gElement("#cek");
         submit.onclick = function() {
@@ -84,35 +85,41 @@
                     email: gElement("#email").value,
                     password: gElement("#password").value
                 };
-                post("http://webi.com/api/user", {
-                    data: obj
-                }, res => {
-                    if (res == "ok") {
-                        alert("Pendaftaran berhasil!");
-                        window.location.reload();
+                post(
+                    "http://webi.com/api/user", {
+                        data: obj
+                    },
+                    res => {
+                        if (res == "ok") {
+                            alert("Pendaftaran berhasil!");
+                            window.location.href("login");
+                        }
                     }
-                })
+                );
             } else {
                 alert("mohon lengkapi semua isian");
             }
-            // console.log(lock);                
-        }
+            // console.log(lock);
+        };
 
         function cekifexist() {
             let uname = gElement("#username");
             var format = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
             if (!format.test(uname.value)) {
-                get("http://webi.com/api/user?uname=" + uname.value, (response) => {
+                get("http://webi.com/api/user?uname=" + uname.value, response => {
                     if (response != "ok") {
                         lock[0] = false;
                         validate("#usr", "#username", "sudah terpakai", "red");
                     } else {
-                        validate("#usr", "#username", "username", "rgba(66, 107, 241, 0.699)");
+                        validate(
+                            "#usr",
+                            "#username",
+                            "username",
+                            "rgba(66, 107, 241, 0.699)"
+                        );
                         lock[0] = true;
-
                     }
-                })
-
+                });
             } else {
                 lock[0] = false;
                 validate("#usr", "#username", "username tanpa simbol", "red");
@@ -123,15 +130,14 @@
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             let input = gElement("#email");
             if (re.test(String(input.value).toLowerCase())) {
-                get('http://webi.com/api/user?cek=' + input.value, (res) => {
+                get("http://webi.com/api/user?cek=" + input.value, res => {
                     if (res == "ok") {
                         validate("#mail", "#email", "email", "rgba(66, 107, 241, 0.699)");
                         lock[1] = true;
                     } else {
                         validate("#mail", "#email", "email sudah dipakai", "red");
                     }
-                })
-
+                });
             } else {
                 lock[1] = false;
                 validate("#mail", "#email", "email tidak sesuai", "red");
@@ -145,7 +151,12 @@
                 validate("#pass", "#password", "password minimal 8 karakter", "red");
             } else {
                 lock[2] = true;
-                validate("#pass", "#password", "password", "rgba(66, 107, 241, 0.699)");
+                validate(
+                    "#pass",
+                    "#password",
+                    "password",
+                    "rgba(66, 107, 241, 0.699)"
+                );
             }
             retype();
         }
@@ -155,7 +166,12 @@
             let p2 = gElement("#re-type");
             if (p.value == p2.value) {
                 lock[3] = true;
-                validate("#rtype", "#re-type", "re-type", "rgba(66, 107, 241, 0.699)");
+                validate(
+                    "#rtype",
+                    "#re-type",
+                    "re-type",
+                    "rgba(66, 107, 241, 0.699)"
+                );
             } else {
                 lock[3] = false;
                 validate("#rtype", "#re-type", "Password tidak cocok", "red");

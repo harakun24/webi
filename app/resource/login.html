@@ -1,10 +1,10 @@
 <html>
 
 <head>
-    <script src="../asset/js/dim2.js"></script>
-    <script src="../asset/js/lib.js"></script>
+    <script src="app/asset/js/dim2.js"></script>
+    <script src="app/asset/js/lib.js"></script>
 
-    <link rel="stylesheet" href="../asset/css/login.css?v=23" />
+    <link rel="stylesheet" href="app/asset/css/login.css?v=23" />
 </head>
 
 <body>
@@ -45,12 +45,13 @@
         ipt.onclick = function() {
             if (status) {
                 this.style.cssText =
-                    "background-image:url(../asset/images/show.png?v=2)";
+                    "background-image:url(app/asset/images/show.png?v=2)";
 
                 this.parentNode.children[0].type = "text";
                 status = 0;
             } else {
-                this.style.cssText = "background-image:url(../asset/images/hide.png)";
+                this.style.cssText =
+                    "background-image:url(app/asset/images/hide.png)";
                 this.parentNode.children[0].type = "password";
                 status = 1;
             }
@@ -123,7 +124,7 @@
                             "red"
                         );
                     } else {
-                        window.location.replace("proses-login.php?user=" + input.value);
+                        window.location.assign("plogin?user=" + input.value);
                     }
                 }
             );

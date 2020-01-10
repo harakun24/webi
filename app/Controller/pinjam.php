@@ -3,4 +3,4 @@ session_start();
 if (!isset($_SESSION['user'])) {
     header("Location: login");
 }
-include "../resource/dashboard.html";
+include("../resource/pinjam.html");

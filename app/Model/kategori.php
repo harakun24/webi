@@ -8,7 +8,7 @@ class kategori extends Table
     public function top($count = 1)
     {
         $tmp = $this->select("kategori.nama", "count(*) as jumlah")
-            ->join("buku", "id", "kategori")
+            ->join("buku")->on("kategori", "id")
             ->where("buku.user", $_SESSION['user'])
             ->group("kategori.nama")
             ->order("jumlah", "desc")

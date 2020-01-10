@@ -1,0 +1,468 @@
+<div class="cont">
+    <button id="add" class="edit" onclick="add()">Tambah</button>
+
+    <div class="body">
+        <table cellspacing="0"></table>
+    </div>
+</div>
+<div class="float-edit">
+    <input type="hidden" name="kode" id="edit-kode" />
+    <input type="text" name="nama" id="edit-nama" placeholder="nama karyawan" />
+    <input type="text" name="nama" id="edit-email" placeholder="alamat email" />
+    <input type="text" name="nama" id="edit-alamat" placeholder="tempat tinggal" />
+
+    <div class="line-btn">
+        <button onclick="actedit()" class="edit">Edit</button>
+        <button onclick="cancel()" class="edit">Batal</button>
+    </div>
+</div>
+<div class="float-tambah">
+    <input type="text" name="nama" id="tambah-nama" placeholder="nama karyawan" />
+    <input type="text" name="nama" id="tambah-email" placeholder="alamat email" />
+    <input type="text" name="nama" id="tambah-alamat" placeholder="tempat tinggal" />
+
+    <div class="line-btn">
+        <button onclick="tambah()" class="edit">Tambah</button>
+        <button onclick="cancel()" class="edit">Batal</button>
+    </div>
+</div>
+<script>
+    let show = (req = "") => {
+        let tmp = gElement(".body");
+        tmp.innerHTML = "";
+        let table = createUI({
+            content: "table"
+        });
+        tmp.child(table);
+        let r = createUI({
+            content: "tr"
+        });
+        let hk = createUI({
+            content: "th",
+            val: "id",
+            onclick: "show('id')"
+        });
+        let hj = createUI({
+            content: "th",
+            val: "nama",
+            onclick: "show('nama')"
+        });
+        let hkd = createUI({
+            content: "th",
+            val: "email",
+            onclick: "show('email')"
+        });
+        let hs = createUI({
+            content: "th",
+            val: "alamat",
+            onclick: "show('alamat')"
+        });
+        let ha = createUI({
+            content: "th",
+            val: "Aksi"
+        });
+        r.child(hk);
+        r.child(hj);
+        r.child(hkd);
+        r.child(hs);
+        r.child(ha);
+        table.child(r);
+
+        get("http://webi.com/api/karyawan?list=" + req, e => {
+            e.forEach(list => {
+                alert(list.id);
+                let row = createUI({
+                    content: "tr"
+                });
+                let kode = createUI({
+                    content: "td",
+                    val: list.id
+                });
+                let nama = createUI({
+                    content: "td",
+                    val: list.nama
+                });
+                let kategori = createUI({
+                    content: "td",
+                    val: list.email
+                });
+                let stok = createUI({
+                    content: "td",
+                    val: list.alamat
+                });
+                let aksi = createUI({
+                    content: "td",
+                    id: "aksi"
+                });
+                let btnedit = createUI({
+                    content: "button",
+                    class: "edit",
+                    val: "Edit",
+                    onclick: "edit(" + list.kode + ")"
+                });
+                let btnhapus = createUI({
+                    content: "button",
+                    class: "hapus",
+                    val: "Hapus",
+                    onclick: "floats(" + list.kode + ")"
+                });
+                aksi.child(btnedit);
+                aksi.child(btnhapus);
+                row.child(kode);
+                row.child(nama);
+                row.child(kategori);
+                row.child(stok);
+                row.child(aksi);
+                table.child(row);
+            });
+        });
+    };
+    let add = () => {
+        g = gElement(".float-tambah");
+        g.style.cssText = "top:10VH";
+        
+    };
+    let edit = id => {
+        g = gElement(".float-edit");
+        g.style.cssText = "top:10VH";
+        let shu = gElement("#edit-email");
+        let sakk = gElement("#edit-alamat");
+        let nama = gElement("#edit-nama");
+        let kode = gElement("#edit-kode");
+        get("http://webi.com/api/buku?cek=" + id, e => {
+            kode.value = e[0].id;
+            nama.value = e[0].nama;
+            shu.value = e[0].email;
+            sakk.value = e[0].alamat;
+        });
+    };
+    let actedit = () => {
+        let kode = gElement("#edit-kode");
+        let judl = gElement("#edit-nama");
+        let shu = gElement("#edit-email");
+        let sakka = gElement("#edit-alamat");
+
+        let data = {
+            id: kode.value,
+            nama: judl.value,
+            email: shu.value,
+            alamat: sakk.value,
+            status: "edit"
+        };
+        post(
+            "http://webi.com/api/karyawan", {
+                data: data
+            },
+            e => {
+                if (e == "ok") {
+                    document.location.reload();
+                }
+            }
+        );
+    };
+
+    let floats = id => {
+        let confirm = createUI({
+            content: "div",
+            class: "floating-div"
+        });
+        confirm.child(
+            createUI({
+                content: "div",
+                class: "float-row",
+                id: "float-top"
+            })
+        );
+        confirm.child(
+            createUI({
+                content: "div",
+                class: "float-row",
+                id: "float-mid"
+            })
+        );
+        confirm.child(
+            createUI({
+                content: "div",
+                class: "float-row",
+                id: "float-btn"
+            })
+        );
+        confirm.render();
+        let g = gElement("#float-top");
+        g.child(
+            createUI({
+                content: "h5",
+                val: "Apakah anda yakin ingin menghapus buku ini?"
+            })
+        );
+        g = gElement("#float-mid");
+        g.child(
+            createUI({
+                content: "p",
+                id: "delj",
+                val: "nama:"
+            })
+        );
+        g.child(
+            createUI({
+                content: "p",
+                id: "dels",
+                val: "Stok:"
+            })
+        );
+        g = gElement("#float-btn");
+        g.child(
+            createUI({
+                content: "button",
+                class: "edit",
+                onclick: "dell(" + id + ")",
+                val: "Ya"
+            })
+        );
+        g.child(
+            createUI({
+                content: "button",
+                val: "Tidak",
+                class: "hapus",
+                onclick: "back()"
+            })
+        );
+        get("http://webi.com/api/karyawan?cek=" + id, e => {
+            if (e == "null") {
+                alert("Buku tidak ditemukan");
+            } else {
+                console.log(e);
+                g = gElement(".floating-div");
+                g.style.cssText = "top:10%";
+                let nama = gElement("#delj");
+                let stok = gElement("#dels");
+                nama.innerHTML = "nama: " + e[0].nama;
+                stok.innerHTML = "Stok: " + e[0].stok;
+            }
+        });
+    };
+    show("id");
+    let back = () => {
+        g = gElement(".floating-div");
+        g.style.cssText = "top:-50%";
+        setTimeout(() => {
+            g.unset();
+        }, 500);
+    };
+    let temp;
+    let cek = () => {
+        let tmp = gElement(".body");
+
+        let nama = gElement("#kode");
+        get("http://webi.com/api/karyawan?cek=" + nama.value, e => {
+            let v = e[0];
+            !temp ? (temp = tmp.innerHTML) : (tmp.innerHTML = temp);
+            console.log(e);
+            if (e == "null") {
+                alert("buku tidak ditemukan!");
+            } else {
+                let wrp = createUI({
+                    content: "div",
+                    class: "wrapper-body"
+                });
+                let nama = createUI({
+                    content: "input",
+                    placeholder: "nama",
+                    id: "nama",
+                    value: v.nama
+                });
+                let kategori = createUI({
+                    content: "select",
+                    id: "kategori"
+                });
+                let email = createUI({
+                    content: "select",
+                    id: "email"
+                });
+                let alamat = createUI({
+                    content: "select",
+                    id: "alamat"
+                });
+                let stok = createUI({
+                    content: "input",
+                    id: "stok",
+                    value: v.stok,
+                    type: "number",
+                    style: "width:25%;margin-left:-55%"
+                });
+                kategori.child(
+                    createUI({
+                        content: "option",
+                        value: "x",
+                        val: "--pilih kategori--"
+                    })
+                );
+                email.child(
+                    createUI({
+                        content: "option",
+                        value: "x",
+                        val: "--pilih email--"
+                    })
+                );
+                alamat.child(
+                    createUI({
+                        content: "option",
+                        value: "x",
+                        val: "--pilih alamat--"
+                    })
+                );
+                get("http://webi.com/api/karyawan?shu", e => {
+                    e.forEach(f => {
+                        let option;
+                        if (v.email == f.id) {
+                            option = createUI({
+                                content: "option",
+                                value: f.id,
+                                val: f.nama,
+                                selected: "selected"
+                            });
+                        } else {
+                            option = createUI({
+                                content: "option",
+                                value: f.id,
+                                val: f.nama
+                            });
+                        }
+
+                        email.child(option);
+                    });
+                });
+                get("http://webi.com/api/karyawan?sakka", e => {
+                    e.forEach(f => {
+                        let option;
+                        if (v.alamat == f.id) {
+                            option = createUI({
+                                content: "option",
+                                value: f.id,
+                                val: f.nama,
+                                selected: "selected"
+                            });
+                        } else {
+                            option = createUI({
+                                content: "option",
+                                value: f.id,
+                                val: f.nama
+                            });
+                        }
+                        alamat.child(option);
+                    });
+                });
+                get("http://webi.com/api/karyawan?cat", e => {
+                    e.forEach(f => {
+                        let option;
+                        if (v.kategori == f.id) {
+                            option = createUI({
+                                content: "option",
+                                value: f.id,
+                                val: f.nama,
+                                selected: "selected"
+                            });
+                        } else {
+                            option = createUI({
+                                content: "option",
+                                value: f.id,
+                                val: f.nama
+                            });
+                        }
+                        kategori.child(option);
+                    });
+                });
+                wrp.child(nama);
+                wrp.child(kategori);
+                wrp.child(email);
+                wrp.child(alamat);
+                wrp.child(stok);
+                tmp.child(wrp);
+                wrp.child(
+                    createUI({
+                        content: "button",
+                        id: "btnedit",
+                        val: "Edit",
+                        style: "margin-top:5%",
+                        onclick: "submit()"
+                    })
+                );
+            }
+        });
+    };
+    let submit = () => {
+        let kat = gElement("#kategori");
+        let shu = gElement("#email");
+        let sakka = gElement("#alamat");
+        let stok = gElement("#stok");
+        if (
+            kat.value == "x" ||
+            shu.value == "x" ||
+            sakka.value == "x" ||
+            stok.value < 0
+        ) {
+            alert("tolong isi semua kolom!");
+        } else {
+            let data = {
+                kode: gElement("#kode").value,
+                kategori: gElement("#kategori").selectedIndex,
+                nama: gElement("#nama").value,
+                alamat: gElement("#alamat").selectedIndex,
+                email: gElement("#email").selectedIndex,
+                stok: gElement("#stok").value,
+                status: "edit"
+            };
+            post(
+                "http://webi.com/apiapi/karyawan.php", {
+                    data: data
+                },
+                e => {
+                    console.log(e);
+                }
+            );
+        }
+    };
+    let tambah = () => {
+        let shu = gElement("#tambah-email");
+        let sakk = gElement("#tambah-alamat");
+        let nama = gElement("#tambah-nama");
+        
+            let data = {
+                nama:nama.value,
+                email:shu.value,
+                alamat:sakk.value,
+                status: "add"
+            };
+            post(
+                "http://webi.com/api/karyawan", {
+                    data: data
+                },
+                e => {
+                    if (e == "ok") {
+                        document.location.reload();
+                    }
+                }
+            );
+        
+    };
+    let dell = kode => {
+        let data = {
+            id: kode,
+            status: "delete"
+        };
+        post(
+            "http://webi.com/api/karyawan", {
+                data: data
+            },
+            e => {
+                if (e == "ok") {
+                    document.location.reload();
+                }
+            }
+        );
+    };
+    let cancel = () => {
+        g = gElement(".float-edit");
+        g.style.cssText = "top:-70vh";
+    };
+</script>

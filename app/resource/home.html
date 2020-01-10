@@ -2,42 +2,53 @@
     <div class="col">
         <h1 id="buku">&nbsp;</h1>
         <b>Total buku</b>
+        <div class="hid-act">
+            <h3>Kelola</h3>
+        </div>
     </div>
     <div class="col">
         <h1>4000</h1>
         <b>Buku dipinjam</b>
+        <div class="hid-act">
+            <h3>Kelola</h3>
+        </div>
     </div>
     <div class="col">
         <h1>4000</h1>
         <b>Visitor</b>
+        <div class="hid-act">
+            <h3>Kelola</h3>
+        </div>
     </div>
 </div>
-<div class="row">
+<div class="row raw">
     <div class="kaegori">
         <canvas id="mine"></canvas>
+    </div>
+    <div class="kaegori">
+        <canvas id="mine2"></canvas>
     </div>
 </div>
 <script>
     // var ctx = document.getElementById("mine").getContext("2d");
     let tmp;
     setInterval(() => {
-        get("../api/buku.php?top=7", e => {
+        get("http://webi.com/api/buku?top=5", e => {
             if (JSON.stringify(tmp) != JSON.stringify(e)) {
                 tmp = e;
-                console.log(tmp);
                 let data = {
                     labels: [],
                     datasets: [{
-                        label: "kategori",
+                        label: "5 Kategori terlaris",
                         data: [],
                         backgroundColor: [
-                            "red",
-                            "blue",
-                            "green",
-                            "purple",
-                            "yellow",
-                            "pink",
-                            "orange"
+                            "rgba(255, 99, 132, 1)",
+                            "rgba(54, 162, 235, 1)",
+                            "rgba(255, 206, 86, 1)",
+                            "rgba(75, 192, 192, 1)",
+                            "rgba(153, 102, 255, 1)",
+                            "rgba(255, 159, 64, 1)",
+                            "#9863ff"
                         ]
                     }]
                 };
@@ -45,6 +56,8 @@
                     data.labels.push(list.nama);
                     data.datasets[0].data.push(list.jumlah);
                 });
+                data.datasets[0].data.push(0);
+
                 var ctx = gElement("#mine").getContext("2d");
                 var myChart = new Chart(ctx, {
                     type: "bar",
@@ -64,9 +77,53 @@
         });
     }, 300);
 
+    let tmp2;
+    setInterval(() => {
+        get("http://webi.com/api/list?list", e => {
+            if (JSON.stringify(tmp2) != JSON.stringify(e)) {
+                tmp2 = e;
+                let data = {
+                    labels: [],
+                    datasets: [{
+                        label: "Data peminjaman",
+                        data: [],
+                        backgroundColor: [
+                            "rgba(255, 99, 132, 1)",
+                            "rgba(54, 162, 235, 1)",
+                            "rgba(255, 206, 86, 1)",
+                            "rgba(75, 192, 192, 1)",
+                            "rgba(153, 102, 255, 1)",
+                            "rgba(255, 159, 64, 1)",
+                            "#9863ff"
+                        ]
+                    }]
+                };
+                e.forEach(list => {
+                    data.labels.push(list.tgl);
+                    data.datasets[0].data.push(list.c);
+                });
+                var ctx = gElement("#mine2").getContext("2d");
+                var myChart = new Chart(ctx, {
+                    type: "line",
+                    data: data,
+                    options: {
+                        animation: {
+                            duration: 0
+                        },
+                        elements: {
+                            line: {
+                                tension: 0
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }, 300);
+
     let temp;
     setInterval(() => {
-        get("../api/buku.php?count", e => {
+        get("http://webi.com/api/buku?count", e => {
             if (JSON.stringify(temp) != JSON.stringify(e)) {
                 temp = e;
                 let total = gElement("#buku");

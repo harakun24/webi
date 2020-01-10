@@ -23,7 +23,7 @@ $con = connect();
         <img src="app/asset/images/back.jpg" alt="">
     </div>
     <div class="content">
-        <div class="header"><a href="#">Login</a></div>
+        <div class="header"><a href="login">Login</a></div>
         <h1>Selamat Datang di web Pustakaku</h1>
         <div class="row">
             <div class="box">
@@ -42,7 +42,7 @@ $con = connect();
             pengelolaan perpustakaan berbasis web.
             Klik link berikut
             </p>
-            <a href="register.php" id="readme">Registrasi <div class="contente"></div></a>
+            <a href="signup" id="readme">Registrasi <div class="contente"></div></a>
 
         </div>
         </div>

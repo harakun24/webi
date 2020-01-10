@@ -1,15 +1,44 @@
 <div class="cont">
-    <div class="head">
-        Manage
-        <div class="action">
-            <img src="../asset/images/icon/show.png" alt="show" onclick="show('kode')" />
-            <img src="../asset/images/icon/add.png" alt="add" onclick="add()" />
-            <img src="../asset/images/icon/edit.png" alt="edit" onclick="edit()" />
-            <img src="../asset/images/icon/delete.png" alt="delete" onclick="delet()" />
-        </div>
-    </div>
+    <button id="add" class="edit" onclick="add()">Tambah</button>
+    <input type="text" id="cari" placeholder="Cari " onkeyup="cari()">
     <div class="body">
         <table cellspacing="0"></table>
+    </div>
+</div>
+<div class="float-edit">
+    <input type="hidden" name="kode" id="edit-kode" />
+    <input type="text" name="judul" id="edit-judul" placeholder="judul buku" />
+    <select name="kategori" id="edit-kategori">
+    <option value="x">--pilih kategori--</option>
+  </select>
+    <select name="penerbit" id="edit-penerbit">
+    <option value="x">--pilih penerbit--</option>
+  </select>
+    <select name="penulis" id="edit-penulis">
+    <option value="x">--pilih penulis--</option>
+  </select>
+    <input type="number" name="stok" id="edit-stok" placeholder="stok" />
+    <div class="line-btn">
+        <button onclick="actedit()" class="edit">Edit</button>
+        <button onclick="cancel()" class="edit">Batal</button>
+    </div>
+</div>
+<div class="float-tambah">
+    <input type="hidden" name="kode" id="tambah-kode" />
+    <input type="text" name="judul" id="tambah-judul" placeholder="judul buku" />
+    <select name="kategori" id="tambah-kategori">
+    <option value="x">--pilih kategori--</option>
+  </select>
+    <select name="penerbit" id="tambah-penerbit">
+    <option value="x">--pilih penerbit--</option>
+  </select>
+    <select name="penulis" id="tambah-penulis">
+    <option value="x">--pilih penulis--</option>
+  </select>
+    <input type="number" name="stok" id="tambah-stok" placeholder="stok" />
+    <div class="line-btn">
+        <button onclick="tambah()" class="edit">Tambah</button>
+        <button onclick="cancel()" class="edit">Batal</button>
     </div>
 </div>
 <script>
@@ -33,14 +62,25 @@
             val: "judul",
             onclick: "show('judul')"
         });
+        let hkd = createUI({
+            content: "th",
+            val: "kategori",
+            onclick: "show('kategori')"
+        });
         let hs = createUI({
             content: "th",
             val: "stok",
             onclick: "show('stok')"
         });
+        let ha = createUI({
+            content: "th",
+            val: "Aksi"
+        });
         r.child(hk);
         r.child(hj);
+        r.child(hkd);
         r.child(hs);
+        r.child(ha);
         table.child(r);
 
         get("../api/buku.php?list=" + req, e => {
@@ -60,239 +100,418 @@
                     content: "td",
                     val: list.kategori
                 });
+                let stok = createUI({
+                    content: "td",
+                    val: list.stok
+                });
+                let aksi = createUI({
+                    content: "td",
+                    id: "aksi"
+                });
+                let btnedit = createUI({
+                    content: "button",
+                    class: "edit",
+                    val: "Edit",
+                    onclick: "edit(" + list.kode + ")"
+                });
+                let btnhapus = createUI({
+                    content: "button",
+                    class: "hapus",
+                    val: "Hapus",
+                    onclick: "floats(" + list.kode + ")"
+                });
+                aksi.child(btnedit);
+                aksi.child(btnhapus);
                 row.child(kode);
                 row.child(judul);
                 row.child(kategori);
+                row.child(stok);
+                row.child(aksi);
                 table.child(row);
             });
         });
     };
-    let add = () => {
+    
+    let cari = () => {
         let tmp = gElement(".body");
         tmp.innerHTML = "";
-        let wrp = createUI({
-            content: "div",
-            class: "wrapper-body"
+        let table = createUI({
+            content: "table"
         });
-        let judul = createUI({
-            content: "input",
-            placeholder: "Judul Buku",
-            id: "judul",
-            value: ""
+        tmp.child(table);
+        let r = createUI({
+            content: "tr"
         });
-        let kategori = createUI({
-            content: "select",
-            id: "kategori"
+        let hk = createUI({
+            content: "th",
+            val: "kode",
+            onclick: "show('kode')"
         });
-        let penerbit = createUI({
-            content: "select",
-            id: "penerbit"
+        let hj = createUI({
+            content: "th",
+            val: "judul",
+            onclick: "show('judul')"
         });
-        let penulis = createUI({
-            content: "select",
-            id: "penulis"
+        let hkd = createUI({
+            content: "th",
+            val: "kategori",
+            onclick: "show('kategori')"
         });
-        let stok = createUI({
-            content: "input",
-            id: "stok",
-            value: "0",
-            type: "number",
-            style: "width:25%;margin-left:-55%"
+        let hs = createUI({
+            content: "th",
+            val: "stok",
+            onclick: "show('stok')"
         });
-        kategori.child(
-            createUI({
-                content: "option",
-                value: "x",
-                val: "--pilih kategori--"
-            })
-        );
-        penerbit.child(
-            createUI({
-                content: "option",
-                value: "x",
-                val: "--pilih penerbit--"
-            })
-        );
-        penulis.child(
-            createUI({
-                content: "option",
-                value: "x",
-                val: "--pilih penulis--"
-            })
-        );
-        get("../api/buku.php?shu", e => {
-            e.forEach(f => {
-                let option;
+        let ha = createUI({
+            content: "th",
+            val: "Aksi"
+        });
+        r.child(hk);
+        r.child(hj);
+        r.child(hkd);
+        r.child(hs);
+        r.child(ha);
+        table.child(r);
+let item=gElement("#cari");
+        get("../api/buku.php?cari="+item.value, e => {
+            e.forEach(list => {
+                let row = createUI({
+                    content: "tr"
+                });
+                let kode = createUI({
+                    content: "td",
+                    val: list.kode
+                });
+                let judul = createUI({
+                    content: "td",
+                    val: list.judul
+                });
+                let kategori = createUI({
+                    content: "td",
+                    val: list.kategori
+                });
+                let stok = createUI({
+                    content: "td",
+                    val: list.stok
+                });
+                let aksi = createUI({
+                    content: "td",
+                    id: "aksi"
+                });
+                let btnedit = createUI({
+                    content: "button",
+                    class: "edit",
+                    val: "Edit",
+                    onclick: "edit(" + list.kode + ")"
+                });
+                let btnhapus = createUI({
+                    content: "button",
+                    class: "hapus",
+                    val: "Hapus",
+                    onclick: "floats(" + list.kode + ")"
+                });
+                aksi.child(btnedit);
+                aksi.child(btnhapus);
+                row.child(kode);
+                row.child(judul);
+                row.child(kategori);
+                row.child(stok);
+                row.child(aksi);
+                table.child(row);
+            });
+        });
+    };
+   
+    
+    let add = () => {
+        g = gElement(".float-tambah");
+        g.style.cssText = "top:10VH";
+        let kat = gElement("#tambah-kategori");
+        let shu = gElement("#tambah-penerbit");
+        let sakk = gElement("#tambah-penulis");
+        let judul = gElement("#tambah-judul");
+        let kode = gElement("#tambah-kode");
+        let stok = gElement("#tambah-stok");
 
-                option = createUI({
+        let child = kat.lastElementChild;
+        while (child) {
+            kat.removeChild(child);
+            child = kat.lastElementChild;
+        }
+        child = shu.lastElementChild;
+        while (child) {
+            shu.removeChild(child);
+            child = shu.lastElementChild;
+        }
+        child = sakk.lastElementChild;
+        while (child) {
+            sakk.removeChild(child);
+            child = sakk.lastElementChild;
+        }
+        let k, h, a;
+
+        get("../api/buku.php?cat", e => {
+            e.forEach(f => {
+                let opt;
+
+                opt = createUI({
                     content: "option",
                     value: f.id,
                     val: f.nama
                 });
-                penerbit.child(option);
+
+                kat.child(opt);
             });
         });
         get("../api/buku.php?sakka", e => {
             e.forEach(f => {
-                let option;
+                let opt;
 
-                option = createUI({
+                opt = createUI({
                     content: "option",
                     value: f.id,
                     val: f.nama
                 });
 
-                penulis.child(option);
+                sakk.child(opt);
             });
         });
-        get("../api/buku.php?cat", e => {
+
+        get("../api/buku.php?shu", e => {
             e.forEach(f => {
-                let option;
+                let opt;
 
-                option = createUI({
+                opt = createUI({
                     content: "option",
                     value: f.id,
                     val: f.nama
                 });
 
-                kategori.child(option);
+                shu.child(opt);
             });
         });
-        wrp.child(judul);
-        wrp.child(kategori);
-        wrp.child(penerbit);
-        wrp.child(penulis);
-        wrp.child(stok);
-        tmp.child(wrp);
-        wrp.child(
+    };
+    let edit = id => {
+        g = gElement(".float-edit");
+        g.style.cssText = "top:10VH";
+        let kat = gElement("#edit-kategori");
+        let shu = gElement("#edit-penerbit");
+        let sakk = gElement("#edit-penulis");
+        let judul = gElement("#edit-judul");
+        let kode = gElement("#edit-kode");
+        let stok = gElement("#edit-stok");
+
+        let child = kat.lastElementChild;
+        while (child) {
+            kat.removeChild(child);
+            child = kat.lastElementChild;
+        }
+        child = shu.lastElementChild;
+        while (child) {
+            shu.removeChild(child);
+            child = shu.lastElementChild;
+        }
+        child = sakk.lastElementChild;
+        while (child) {
+            sakk.removeChild(child);
+            child = sakk.lastElementChild;
+        }
+        let k, h, a;
+        get("../api/buku.php?cek=" + id, e => {
+            kode.value = e[0].kode;
+            judul.value = e[0].judul;
+            stok.value = e[0].stok;
+            k = e[0].kategori;
+            h = e[0].penerbit;
+            a = e[0].penulis;
+            get("../api/buku.php?cat", e => {
+                e.forEach(f => {
+                    let opt;
+                    if (f.id == k) {
+                        opt = createUI({
+                            content: "option",
+                            value: f.id,
+                            val: f.nama,
+                            selected: "selected"
+                        });
+                    } else {
+                        opt = createUI({
+                            content: "option",
+                            value: f.id,
+                            val: f.nama
+                        });
+                    }
+                    kat.child(opt);
+                });
+            });
+            get("../api/buku.php?sakka", e => {
+                e.forEach(f => {
+                    let opt;
+                    if (f.id == a) {
+                        opt = createUI({
+                            content: "option",
+                            value: f.id,
+                            val: f.nama,
+                            selected: "selected"
+                        });
+                    } else {
+                        opt = createUI({
+                            content: "option",
+                            value: f.id,
+                            val: f.nama
+                        });
+                    }
+                    sakk.child(opt);
+                });
+            });
+
+            get("../api/buku.php?shu", e => {
+                e.forEach(f => {
+                    let opt;
+                    if (f.id == h) {
+                        opt = createUI({
+                            content: "option",
+                            value: f.id,
+                            val: f.nama,
+                            selected: "selected"
+                        });
+                    } else {
+                        opt = createUI({
+                            content: "option",
+                            value: f.id,
+                            val: f.nama
+                        });
+                    }
+                    shu.child(opt);
+                });
+            });
+        });
+    };
+    let actedit = () => {
+        let kode = gElement("#edit-kode");
+        let judl = gElement("#edit-judul");
+        let kat = gElement("#edit-kategori");
+        let shu = gElement("#edit-penerbit");
+        let sakka = gElement("#edit-penulis");
+        let stok = gElement("#edit-stok");
+        if (
+            kat.value == "x" ||
+            shu.value == "x" ||
+            sakka.value == "x" ||
+            stok.value < 0
+        ) {
+            alert("tolong isi semua kolom!");
+        } else {
+            let data = {
+                kode: kode.value,
+                kategori: kat.options[kat.selectedIndex].value,
+                judul: judl.value,
+                penulis: sakka.options[sakka.selectedIndex].value,
+                penerbit: shu.options[shu.selectedIndex].value,
+                stok: stok.value,
+                status: "edit"
+            };
+            post(
+                "../api/buku.php", {
+                    data: data
+                },
+                e => {
+                    if (e == "ok") {
+                        document.location.reload();
+                    }
+                }
+            );
+        }
+    };
+
+    let floats = id => {
+        let confirm = createUI({
+            content: "div",
+            class: "floating-div"
+        });
+        confirm.child(
             createUI({
-                content: "button",
-                id: "btnedit",
-                val: "Tambah",
-                style: "margin-top:5%",
-                onclick: "tambah()"
+                content: "div",
+                class: "float-row",
+                id: "float-top"
             })
         );
-    };
-    let edit = () => {
-        let tmp = gElement(".body");
-        tmp.innerHTML = "";
-        let wrapper = createUI({
-            content: "div",
-            class: "wrapper-sub"
+        confirm.child(
+            createUI({
+                content: "div",
+                class: "float-row",
+                id: "float-mid"
+            })
+        );
+        confirm.child(
+            createUI({
+                content: "div",
+                class: "float-row",
+                id: "float-btn"
+            })
+        );
+        confirm.render();
+        let g = gElement("#float-top");
+        g.child(
+            createUI({
+                content: "h5",
+                val: "Apakah anda yakin ingin menghapus buku ini?"
+            })
+        );
+        g = gElement("#float-mid");
+        g.child(
+            createUI({
+                content: "p",
+                id: "delj",
+                val: "Judul:"
+            })
+        );
+        g.child(
+            createUI({
+                content: "p",
+                id: "dels",
+                val: "Stok:"
+            })
+        );
+        g = gElement("#float-btn");
+        g.child(
+            createUI({
+                content: "button",
+                class: "edit",
+                onclick: "dell(" + id + ")",
+                val: "Ya"
+            })
+        );
+        g.child(
+            createUI({
+                content: "button",
+                val: "Tidak",
+                class: "hapus",
+                onclick: "back()"
+            })
+        );
+        get("../api/buku.php?cek=" + id, e => {
+            if (e == "null") {
+                alert("Buku tidak ditemukan");
+            } else {
+                console.log(e);
+                g = gElement(".floating-div");
+                g.style.cssText = "top:10%";
+                let judul = gElement("#delj");
+                let stok = gElement("#dels");
+                judul.innerHTML = "Judul: " + e[0].judul;
+                stok.innerHTML = "Stok: " + e[0].stok;
+            }
         });
-        let idi = createUI({
-            content: "input",
-            placeholder: "kode buku",
-            id: "kode"
-        });
-        let btncek = createUI({
-            content: "button",
-            val: "Lanjut",
-            onclick: "cek()"
-        });
-        wrapper.child(idi);
-        wrapper.child(btncek);
-        tmp.child(wrapper);
-    };
-    let delet = () => {
-        // let cek = gElement("#kode");
-        // get("../api/buku.php?cek="+cek.value,e=>{
-        //     alert(e);
-        // });
-        // let tmp = gElement(".body");
-        // tmp.innerHTML = "";
-        // let wrapper = createUI({
-        //     content: "div",
-        //     class: "wrapper-sub"
-        // });
-        // let idi = createUI({
-        //     content: "input",
-        //     placeholder: "kode buku",
-        //     id: "kode"
-        // });
-        // let btncek = createUI({
-        //     content: "button",
-        //     val: "Hapus",
-        //     onclick: "floats()"
-        // });
-        // let confirm = createUI({
-        //     content: "div",
-        //     class: "floating-div"
-        // });
-
-        // confirm.child(
-        //     createUI({
-        //         content: "div",
-        //         class: "float-row",
-        //         id: "float-top"
-        //     })
-        // );
-        // confirm.child(
-        //     createUI({
-        //         content: "div",
-        //         class: "float-row",
-        //         id: "float-mid"
-        //     })
-        // );
-        // confirm.child(
-        //     createUI({
-        //         content: "div",
-        //         class: "float-row",
-        //         id: "float-btn"
-        //     })
-        // );
-        // wrapper.child(idi);
-        // wrapper.child(btncek);
-        // wrapper.child(confirm);
-        // tmp.child(wrapper);
-
-        // let g = gElement("#float-top");
-        // g.child(
-        //     createUI({
-        //         content: "h5",
-        //         val: "Apakah anda yakin ingin menghapus buku ini?"
-        //     })
-        // );
-        // g = gElement("#float-mid");
-        // g.child(
-        //     createUI({
-        //         content: "p",
-        //         val: "Judul:"
-        //     })
-        // );
-        // g.child(
-        //     createUI({
-        //         content: "p",
-        //         val: "Stok:"
-        //     })
-        // );
-        // g = gElement("#float-btn");
-        // g.child(
-        //     createUI({
-        //         content: "button",
-        //         val: "Ya"
-        //     })
-        // );
-        // g.child(
-        //     createUI({
-        //         content: "button",
-        //         val: "Tidak",
-        //         onclick: "back()"
-        //     })
-        // );
-    };
-    let back = () => {
-        g = gElement(".floating-div");
-        g.style.cssText = "margin-top:-500%";
-    };
-    let floats = () => {
-        g = gElement(".floating-div");
-        g.style.cssText = "margin-top:0%";
     };
     show("kode");
-    delet();
-    // add();
+    let back = () => {
+        g = gElement(".floating-div");
+        g.style.cssText = "top:-50%";
+        setTimeout(() => {
+            g.unset();
+        }, 500);
+    };
     let temp;
     let cek = () => {
         let tmp = gElement(".body");
@@ -467,10 +686,12 @@
         }
     };
     let tambah = () => {
-        let kat = gElement("#kategori");
-        let shu = gElement("#penerbit");
-        let sakka = gElement("#penulis");
-        let stok = gElement("#stok");
+        let kode = gElement("#tambah-kode");
+        let judl = gElement("#tambah-judul");
+        let kat = gElement("#tambah-kategori");
+        let shu = gElement("#tambah-penerbit");
+        let sakka = gElement("#tambah-penulis");
+        let stok = gElement("#tambah-stok");
         if (
             kat.value == "x" ||
             shu.value == "x" ||
@@ -480,22 +701,46 @@
             alert("tolong isi semua kolom!");
         } else {
             let data = {
-                kategori: gElement("#kategori").selectedIndex,
-                judul: gElement("#judul").value,
-                penulis: gElement("#penulis").selectedIndex,
-                penerbit: gElement("#penerbit").selectedIndex,
-                stok: gElement("#stok").value,
+                kode: kode.value,
+                kategori: kat.options[kat.selectedIndex].value,
+                judul: judl.value,
+                penulis: sakka.options[sakka.selectedIndex].value,
+                penerbit: shu.options[shu.selectedIndex].value,
+                stok: stok.value,
                 status: "add"
             };
-
             post(
                 "../api/buku.php", {
                     data: data
                 },
                 e => {
-                    console.log(e);
+                    if (e == "ok") {
+                        document.location.reload();
+                    }
                 }
             );
         }
+    };
+    let dell = kode => {
+        let data = {
+            kode: kode,
+            status: "delete"
+        };
+        post(
+            "../api/buku.php", {
+                data: data
+            },
+            e => {
+                if (e == "ok") {
+                    document.location.reload();
+                }
+            }
+        );
+    };
+    let cancel = () => {
+        g = gElement(".float-edit");
+        g.style.cssText = "top:-70vh";
+        g = gElement(".float-tambah");
+        g.style.cssText = "top:-70vh";
     };
 </script>

@@ -1,0 +1,42 @@
+<div class="cont">
+    <div class="usr-left">
+        <select name="" id="karyawan">
+      <option value="xx">--pilih--</option>
+    </select>
+        <input type="text" id="visitor" />
+        <button onclick="tambah()">Tambah</button>
+    </div>
+    <div class="usr-right"></div>
+</div>
+<script>
+    get(
+        "http://webi.com/api/karyawan?karyawan=<?php echo $_SESSION['user']?>",
+        e => {
+            if (e != "null") {
+                e.forEach(list => {
+                    let opt = createUI({
+                        content: "option",
+                        val: list.nama,
+                        value: list.id
+                    });
+                    let s = gElement("#karyawan");
+                    s.child(opt);
+                });
+            }
+        }
+    );
+    let tambah = () => {
+        let karyawan = gElement("#karyawan");
+        karyawan = karyawan.options[karyawan.selectedIndex].value;
+        if (karyawan == "xx") {
+            alert("karyawan belum dipilih");
+        } else {
+            let visitor = gElement("#visitor");
+            get("http://webi.com/api/visitor?cek=" + visitor.value, e => {
+                if (e == "null") {
+                    alert("visitor tidak ditemukan");
+                } else {}
+            });
+        }
+    };
+</script>

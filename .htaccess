@@ -1,4 +1,18 @@
 RewriteEngine On
 RewriteRule ^login login.php
 RewriteRule ^api/user app/api/user.php
-RewriteRule ^api app/api/index.php
+RewriteRule ^api/buku app/api/buku.php
+RewriteRule ^api/visitor app/api/visitor.php
+RewriteRule ^api/transaksi app/api/transaksi.php
+RewriteRule ^api/karyawan app/api/karyawan.php
+RewriteRule ^api/list app/api/transaksi.php
+RewriteRule ^login app/Controller/login.php
+RewriteRule ^signup app/Controller/register.php
+RewriteRule ^signout app/Controller/logot.php
+RewriteRule ^dashboard app/Controller/dashboard.php?url=home
+RewriteRule ^karyawan app/Controller/dashboard.php?url=karyawan
+RewriteRule ^buku app/Controller/dashboard.php?url=book
+RewriteRule ^visitor app/Controller/dashboard.php?url=visitor
+RewriteRule ^peminjaman app/Controller/dashboard.php?url=pinjam
+
+RewriteRule ^plogin app/Controller/proses-login.php

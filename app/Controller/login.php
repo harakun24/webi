@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['user'])) {
-    header("Location: proses-login.php");
+    header("Location: plogin");
 }
 
 $base = "http://webi.com/";
